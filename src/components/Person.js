@@ -16,28 +16,6 @@ function Person({ gridSize, personData, dispatch, day }) {
 
   const cellSizeInPercent = 100 / gridSize
 
-  const sociallyDistancedSquareStyle = {
-    height: `${cellSizeInPercent}%`,
-    width: `${cellSizeInPercent}%`,
-    position: `absolute`,
-    left: `${cellSizeInPercent * location.x}%`,
-    bottom: `${cellSizeInPercent * location.y}%`,
-    border: `3px dashed #595959`,
-    boxSizing: `border-box`,
-    zIndex: 10,
-  }
-
-  const quarantinedSquareStyle = {
-    height: `${cellSizeInPercent}%`,
-    width: `${cellSizeInPercent}%`,
-    position: `absolute`,
-    left: `${cellSizeInPercent * location.x}%`,
-    bottom: `${cellSizeInPercent * location.y}%`,
-    border: `3px ridge #4c0000`,
-    boxSizing: `border-box`,
-    zIndex: 10,
-  }
-
   return (
     <>
       <StyledPerson
@@ -48,18 +26,20 @@ function Person({ gridSize, personData, dispatch, day }) {
         positionTransition={{ duration: 0.4 }}
         onClick={handleClick}
       />
-      {/* {personData.mobility === "SOCIALLY_DISTANCED" && (
-        <motion.div
+      {personData.mobility === "SOCIALLY_DISTANCED" && (
+        <SociallyDistancedSquare
           positionTransition={{ duration: 0.4 }}
-          style={sociallyDistancedSquareStyle}
+          location={location}
+          cellSizeInPercent={cellSizeInPercent}
         />
       )}
       {personData.mobility === "QUARANTINED" && (
-        <motion.div
+        <QuarantinedSquare
           positionTransition={{ duration: 0.4 }}
-          style={quarantinedSquareStyle}
+          location={location}
+          cellSizeInPercent={cellSizeInPercent}
         />
-      )}*/}
+      )}
       <PersonShadow
         positionTransition={{ duration: 0.4 }}
         location={location}
@@ -100,12 +80,38 @@ const PersonShadow = styled(motion.span).attrs(props => ({
 }))`
   border-radius: 50%;
   position: absolute;
-
   box-sizing: border-box;
-  z-index: 5;
   content: "";
   box-shadow: #0000009c 4px 3px 6px 0px;
   z-index: 4;
+`
+
+const SociallyDistancedSquare = styled(motion.div).attrs(props => ({
+  style: {
+    height: `${props.cellSizeInPercent}%`,
+    width: `${props.cellSizeInPercent}%`,
+    left: `${props.cellSizeInPercent * props.location.x}%`,
+    bottom: `${props.cellSizeInPercent * props.location.y}%`,
+  },
+}))`
+  position: absolute;
+  border: 3px dashed #595959;
+  box-sizing: border-box;
+  z-index: 10;
+`
+
+const QuarantinedSquare = styled(motion.div).attrs(props => ({
+  style: {
+    height: `${props.cellSizeInPercent}%`,
+    width: `${props.cellSizeInPercent}%`,
+    left: `${props.cellSizeInPercent * props.location.x}%`,
+    bottom: `${props.cellSizeInPercent * props.location.y}%`,
+  },
+}))`
+  border: 3px ridge #4c0000;
+  position: absolute;
+  box-sizing: border-box;
+  z-index: 10;
 `
 
 export default Person
