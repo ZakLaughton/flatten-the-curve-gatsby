@@ -52,7 +52,7 @@ function Person({ personData }) {
   )
 }
 
-const StyledPerson = styled(motion.span).attrs(props => ({
+const StyledPerson = styled(motion.div).attrs(props => ({
   style: {
     height: `${props.cellSizeInPercent}%`,
     width: `${props.cellSizeInPercent}%`,
@@ -73,7 +73,7 @@ const StyledPerson = styled(motion.span).attrs(props => ({
   z-index: 5;
 `
 
-const PersonShadow = styled(motion.span).attrs(props => ({
+const PersonShadow = styled(motion.div).attrs(props => ({
   style: {
     height: `${props.cellSizeInPercent}%`,
     width: `${props.cellSizeInPercent}%`,

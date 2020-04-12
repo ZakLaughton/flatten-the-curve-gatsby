@@ -20,11 +20,11 @@ function initializeReactGA() {
 }
 
 function Game() {
+  const [state, dispatch] = useContext(GameContext)
   useEffect(() => {
     initializeReactGA()
-  }, [])
-
-  const [state, dispatch] = useContext(GameContext)
+    dispatch({ type: "RESTART" })
+  }, [dispatch])
 
   const {
     day,
