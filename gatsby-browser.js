@@ -4,7 +4,7 @@
  * See: https://www.gatsbyjs.org/docs/browser-apis/
  */
 import React from "react"
-import { GameProvider } from "./src/state/gameProvider"
+import { GameProvider } from "./src/context/gameProvider"
 
 export const wrapRootElement = ({ element }) => (
   <GameProvider>{element}</GameProvider>

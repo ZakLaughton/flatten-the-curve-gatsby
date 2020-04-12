@@ -3,7 +3,7 @@ import styled from "styled-components"
 import GameBoard from "../components/GameBoard"
 import Graph from "../components/Graph"
 import { getInfectedPeopleCount } from "../utils/utils"
-import { GameContext } from "../state/gameProvider"
+import { GameContext } from "../context/gameProvider"
 import "../styles/global.css"
 import ReactGA from "react-ga"
 

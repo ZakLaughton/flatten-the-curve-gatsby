@@ -1,8 +1,11 @@
-import React from "react"
+import React, { useContext } from "react"
+import { GameContext } from "../context/gameProvider"
 import { motion } from "framer-motion"
 import styled from "styled-components"
 
-function Person({ gridSize, personData, dispatch, day }) {
+function Person({ personData }) {
+  const [state, dispatch] = useContext(GameContext)
+  const { gridSize, day } = state
   const { id, infectedDay, isCured, location } = personData
   const isSymptomatic = !isCured && infectedDay >= 0 && day - infectedDay >= 5
   const handleClick = () => {

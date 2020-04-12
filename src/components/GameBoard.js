@@ -1,15 +1,19 @@
-import React from "react";
-import Person from "./Person";
-import styled from "styled-components";
+import React, { useContext } from "react"
+import { GameContext } from "../context/gameProvider"
+import Person from "./Person"
+import styled from "styled-components"
 
-function GameBoard({ boardSize, gridSize, people, dispatch, day, children }) {
+function GameBoard({ children }) {
+  const [state, dispatch] = useContext(GameContext)
+  const { boardSize, gridSize, people, day } = state
+
   return (
     <Board
       boardSize={boardSize}
-      onContextMenu={(e) => {
-        e.preventDefault();
+      onContextMenu={e => {
+        e.preventDefault()
         // setInterval(movePeople, 400);
-        dispatch({ type: "INCREMENT_DAY" });
+        dispatch({ type: "INCREMENT_DAY" })
       }}
     >
       {people.map((person, index) => (
@@ -24,17 +28,17 @@ function GameBoard({ boardSize, gridSize, people, dispatch, day, children }) {
       ))}
       {children}
     </Board>
-  );
+  )
 }
 
 const Board = styled.div`
   width: 100vw;
   height: 100vw;
-  max-width: ${(props) => `${props.boardSize}px`};
-  max-height: ${(props) => `${props.boardSize}px`};
+  max-width: ${props => `${props.boardSize}px`};
+  max-height: ${props => `${props.boardSize}px`};
   background-color: #b7b7b7;
   position: relative;
   margin: auto;
-`;
+`
 
-export default GameBoard;
+export default GameBoard
