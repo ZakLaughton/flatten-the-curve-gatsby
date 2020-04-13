@@ -1,8 +1,11 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    title: `Flatten the Curve Game!`,
+    description: `Test your social distancing skills to lower the infection rate!`,
+    author: `@ZakLaughton`,
+    url: `https://flattenthecurve.zaklaughton.dev`,
+    image: `/images/flatten-icon.png`,
+    twitterUsername: "@ZakLaughton",
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
