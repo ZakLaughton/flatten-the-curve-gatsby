@@ -71,7 +71,7 @@ function Game() {
 
   const classes = useStyles()
   const [state, dispatch] = useContext(GameContext)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(true)
 
   const handleModalOpen = () => {
     setIsModalOpen(true)
