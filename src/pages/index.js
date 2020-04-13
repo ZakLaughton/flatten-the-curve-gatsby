@@ -89,8 +89,15 @@ function Game() {
   return (
     <ThemeProvider theme={theme}>
       <GameGrid boardSize={boardSize}>
-        <h1 style={{ fontSize: `2rem`, textAlign: `center`, marginBottom: 5 }}>
-          FLATTEN THE CURVE
+        <h1
+          style={{
+            fontSize: `2rem`,
+            textAlign: `center`,
+            marginBottom: 5,
+            color: `white`,
+          }}
+        >
+          FLATTEN THE CURVE GAME
         </h1>
         <h2 style={{ fontSize: `1rem`, textAlign: `center` }}>
           Keep the curve as low as possible!
@@ -158,10 +165,16 @@ function Game() {
         >
           <Fade in={isModalOpen}>
             <div className={classes.paper}>
-              <h2 style={{ textAlign: `center` }}>Rules</h2>
+              <h2 style={{ textAlign: `center`, marginBottom: `1rem` }}>
+                Rules
+              </h2>
               <p style={{ fontSize: `1.3rem`, textAlign: `center` }}>
-                One person starts infected. Symptoms 5 moves after being
-                infected.
+                GOAL: Reduce the amount of people infected at any one time
+                through social distancing!
+              </p>
+              <p style={{ fontSize: `1.3rem`, textAlign: `center` }}>
+                One person starts infected. Symptoms appear 5 moves after
+                infection.
               </p>
               <p style={{ fontSize: `1.3rem`, textAlign: `center` }}>
                 Click or tap healthy people to social distance (lower chance of
