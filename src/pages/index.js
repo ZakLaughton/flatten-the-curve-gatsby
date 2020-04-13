@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import styled from "styled-components"
 import GameBoard from "../components/GameBoard"
 import Graph from "../components/Graph"
@@ -6,9 +6,10 @@ import { getInfectedPeopleCount } from "../utils/utils"
 import { GameContext } from "../context/gameProvider"
 import "../styles/global.css"
 import ReactGA from "react-ga"
-import { Button } from "@material-ui/core"
-import { createMuiTheme } from "@material-ui/core/styles"
+import { Backdrop, Button, Fade, Modal, IconButton } from "@material-ui/core"
+import { createMuiTheme, makeStyles } from "@material-ui/core/styles"
 import { ThemeProvider } from "@material-ui/styles"
+import { Help } from "@material-ui/icons"
 
 const theme = createMuiTheme({
   palette: {
@@ -23,6 +24,20 @@ const theme = createMuiTheme({
   spacing: 8,
 })
 
+const useStyles = makeStyles(theme => ({
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+}))
+
 const ARRAY_SEARCH_RESULT_NOT_FOUND = -1
 
 function initializeReactGA() {
@@ -34,9 +49,18 @@ function initializeReactGA() {
     ReactGA.pageview(`/`)
   }
 }
-
 function Game() {
+  const classes = useStyles()
   const [state, dispatch] = useContext(GameContext)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true)
+  }
+  const handleModalClose = () => {
+    setIsModalOpen(false)
+  }
+
   useEffect(() => {
     initializeReactGA()
     dispatch({ type: "RESTART" })
@@ -65,9 +89,12 @@ function Game() {
   return (
     <ThemeProvider theme={theme}>
       <GameGrid boardSize={boardSize}>
-        <h1 style={{ fontSize: `1.3rem`, textAlign: `center` }}>
-          FLATTEN THE CURVE (beta) – See how low you can keep the curve!
+        <h1 style={{ fontSize: `2rem`, textAlign: `center`, marginBottom: 5 }}>
+          FLATTEN THE CURVE
         </h1>
+        <h2 style={{ fontSize: `1rem`, textAlign: `center` }}>
+          Keep the curve as low as possible!
+        </h2>
 
         <MainStats>
           <div>Top of the curve: {Math.floor(topOfTheCurve)}%</div>
@@ -80,6 +107,13 @@ function Game() {
           >
             Reset
           </Button>
+          <IconButton
+            type="button"
+            variant="outlined"
+            onClick={handleModalOpen}
+          >
+            <Help />
+          </IconButton>
         </MainStats>
 
         <GameBoard
@@ -110,14 +144,36 @@ function Game() {
             recovered
           </div>
         </Stats>
-        <p style={{ fontSize: `1.3rem`, textAlign: `center` }}>
-          One person starts infected. Symptoms show on day 5.
-        </p>
-        <p style={{ fontSize: `1.3rem`, textAlign: `center` }}>
-          Click or tap people to social distance (won't move, lower chance of
-          infection). Click or tap people with symptoms to quarantine (can't
-          move, no chance of infecting others).
-        </p>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className={classes.modal}
+          open={isModalOpen}
+          onClose={handleModalClose}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={isModalOpen}>
+            <div className={classes.paper}>
+              <h2 style={{ textAlign: `center` }}>Rules</h2>
+              <p style={{ fontSize: `1.3rem`, textAlign: `center` }}>
+                One person starts infected. Symptoms 5 moves after being
+                infected.
+              </p>
+              <p style={{ fontSize: `1.3rem`, textAlign: `center` }}>
+                Click or tap healthy people to social distance (lower chance of
+                infection).
+              </p>
+              <p style={{ fontSize: `1.3rem`, textAlign: `center` }}>
+                Click or tap symptomatic people to quarantine (no chance of
+                infecting others).
+              </p>
+            </div>
+          </Fade>
+        </Modal>
       </GameGrid>
     </ThemeProvider>
   )
@@ -147,7 +203,7 @@ const MainStats = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-evenly;
-  font-size: 2rem;
+  font-size: 1.4rem;
   font-weight: 500;
   margin: 8px;
   align-items: center;
