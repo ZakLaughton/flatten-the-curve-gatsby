@@ -92,13 +92,13 @@ export default function reducer(state, { type, payload }) {
         (newInfectedPeopleCount / state.people.length) * 100
 
       // Experimental: auto-quarantine symptomatic people
-      movedInfectedPeople = movedInfectedPeople.map(person => {
-        const { isCured, infectedDay } = person
-        if (!isCured && infectedDay >= 0 && newDayNumber - infectedDay >= 5) {
-          person.mobility = "QUARANTINED"
-        }
-        return person
-      })
+      // movedInfectedPeople = movedInfectedPeople.map(person => {
+      //   const { isCured, infectedDay } = person
+      //   if (!isCured && infectedDay >= 0 && newDayNumber - infectedDay >= 5) {
+      //     person.mobility = "QUARANTINED"
+      //   }
+      //   return person
+      // })
 
       return {
         ...state,
@@ -130,7 +130,6 @@ export default function reducer(state, { type, payload }) {
 }
 
 export function init(initialState) {
-  console.log("INIT>>>")
   const { gridSize, peopleDensity } = initialState
   const numberOfPeople = Math.floor(gridSize * gridSize * peopleDensity) || 4
   const generateInitialPeople = () => {
@@ -160,8 +159,19 @@ export function init(initialState) {
     return positionList
   }
 
+  function coordinatesAreInTheMiddleArea(person) {
+    return (
+      person.location.x <= gridSize * 0.75 &&
+      person.location.y <= gridSize * 0.75 &&
+      person.location.x >= gridSize * 0.25 &&
+      person.location.y >= gridSize * 0.25
+    )
+  }
+
   const initialPeople = generateInitialPeople()
-  const indexToInfect = Math.floor(Math.random() * initialPeople.length)
+  const peopleInTheMiddle = initialPeople.filter(coordinatesAreInTheMiddleArea)
+  const indexToInfect =
+    peopleInTheMiddle[Math.floor(Math.random() * peopleInTheMiddle.length)].id
   initialPeople[indexToInfect].infectedDay = 0
   return { ...initialState, people: initialPeople }
 }
