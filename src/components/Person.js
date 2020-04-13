@@ -28,6 +28,7 @@ function Person({ personData }) {
         location={location}
         positionTransition={{ duration: 0.4 }}
         onClick={handleClick}
+        infectedDay={infectedDay}
       />
       {personData.mobility === "SOCIALLY_DISTANCED" && (
         <SociallyDistancedSquare
@@ -61,6 +62,8 @@ const StyledPerson = styled(motion.div).attrs(props => ({
       : props.isSymptomatic
       ? "#448844"
       : "white",
+    // Show all infected (for debugging):
+    // backgroundColor: props.infectedDay >= 0 ? "#448844" : "white",
     left: `${props.cellSizeInPercent * props.location.x}%`,
     bottom: `${props.cellSizeInPercent * props.location.y}%`,
   },
