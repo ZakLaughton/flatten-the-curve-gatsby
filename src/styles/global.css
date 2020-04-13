@@ -1,6 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
 
 body {
-  background-color: #454545;
+  background-color: #516940;
   font-family: "Roboto", sans-serif;
+  /* background-color: #473638; */
+  background-image: url("../images/back-pattern.png");
 }

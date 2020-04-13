@@ -39,6 +39,8 @@ const Board = styled.div`
   background-color: #b7b7b7;
   position: relative;
   margin: auto;
+  border-radius: 15px;
+  overflow: hidden;
 `
 
 export default GameBoard

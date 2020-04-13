@@ -17,7 +17,7 @@ function Person({ personData }) {
     dispatch({ type: "INCREMENT_DAY" })
   }
 
-  const cellSizeInPercent = 100 / gridSize
+  const cellSizeInPercent = 98 / gridSize
 
   return (
     <>
@@ -64,8 +64,8 @@ const StyledPerson = styled(motion.div).attrs(props => ({
       : "white",
     // Show all infected (for debugging):
     // backgroundColor: props.infectedDay >= 0 ? "#448844" : "white",
-    left: `${props.cellSizeInPercent * props.location.x}%`,
-    bottom: `${props.cellSizeInPercent * props.location.y}%`,
+    left: `${props.cellSizeInPercent * props.location.x + 1}%`,
+    bottom: `${props.cellSizeInPercent * props.location.y + 1}%`,
   },
 }))`
   border-radius: 50%;
@@ -80,8 +80,8 @@ const PersonShadow = styled(motion.div).attrs(props => ({
   style: {
     height: `${props.cellSizeInPercent}%`,
     width: `${props.cellSizeInPercent}%`,
-    left: `${props.cellSizeInPercent * props.location.x}%`,
-    bottom: `${props.cellSizeInPercent * props.location.y}%`,
+    left: `${props.cellSizeInPercent * props.location.x + 1}%`,
+    bottom: `${props.cellSizeInPercent * props.location.y + 1}%`,
   },
 }))`
   border-radius: 50%;
@@ -96,8 +96,8 @@ const SociallyDistancedSquare = styled(motion.div).attrs(props => ({
   style: {
     height: `${props.cellSizeInPercent}%`,
     width: `${props.cellSizeInPercent}%`,
-    left: `${props.cellSizeInPercent * props.location.x}%`,
-    bottom: `${props.cellSizeInPercent * props.location.y}%`,
+    left: `${props.cellSizeInPercent * props.location.x + 1}%`,
+    bottom: `${props.cellSizeInPercent * props.location.y + 1}%`,
   },
 }))`
   position: absolute;
@@ -110,8 +110,8 @@ const QuarantinedSquare = styled(motion.div).attrs(props => ({
   style: {
     height: `${props.cellSizeInPercent}%`,
     width: `${props.cellSizeInPercent}%`,
-    left: `${props.cellSizeInPercent * props.location.x}%`,
-    bottom: `${props.cellSizeInPercent * props.location.y}%`,
+    left: `${props.cellSizeInPercent * props.location.x + 1}%`,
+    bottom: `${props.cellSizeInPercent * props.location.y + 1}%`,
   },
 }))`
   border: 3px ridge #4c0000;
