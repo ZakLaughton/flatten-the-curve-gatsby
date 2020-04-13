@@ -13,6 +13,7 @@ import { Help } from "@material-ui/icons"
 import { Helmet } from "react-helmet"
 import { useLocation } from "@reach/router"
 import { useStaticQuery, graphql } from "gatsby"
+import flattenIcon from "../images/flatten-icon.png"
 
 const theme = createMuiTheme({
   palette: {
@@ -65,7 +66,7 @@ function Game() {
   const seo = {
     title: "FLATTEN THE CURVE - THE GAME",
     description: defaultDescription,
-    image: `${siteUrl}${defaultImage}`,
+    image: `${siteUrl}${flattenIcon}`,
     url: `${siteUrl}${pathname}`,
   }
 
