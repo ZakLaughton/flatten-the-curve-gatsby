@@ -21,8 +21,7 @@ const theme = createMuiTheme({
       main: "#454545",
     },
     secondary: {
-      // This is green.A700 as hex.
-      main: "#00FF00",
+      main: "#0008ff",
     },
   },
   spacing: 8,
@@ -155,6 +154,10 @@ function Game() {
             type="button"
             variant="outlined"
             onClick={handleModalOpen}
+            color="secondary"
+            style={{ backgroundColor: `white` }}
+            size="small"
+            edge={false}
           >
             <Help />
           </IconButton>

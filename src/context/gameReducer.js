@@ -77,7 +77,7 @@ export default function reducer(state, { type, payload }) {
             )
           ) {
             const chanceOfGettingInfected =
-              person.mobility === "SOCIALLY_DISTANCED" ? 0.5 : 1
+              person.mobility === "SOCIALLY_DISTANCED" ? 0.1 : 0.9
             if (Math.random() <= chanceOfGettingInfected)
               person.infectedDay = state.day
           }
