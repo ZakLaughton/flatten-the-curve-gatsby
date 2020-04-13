@@ -32,15 +32,17 @@ function GameBoard({ children }) {
 }
 
 const Board = styled.div`
-  width: 100vw;
-  height: 100vw;
+  width: 100%;
   max-width: ${props => `${props.boardSize}px`};
-  max-height: ${props => `${props.boardSize}px`};
+  height: 0;
+  padding-bottom: 100%;
   background-color: #b7b7b7;
   position: relative;
   margin: auto;
+  padding-bottom: 100%;
   border-radius: 15px;
   overflow: hidden;
+  box-shadow: #0000009c 4px 3px 6px 0px;
 `
 
 export default GameBoard
