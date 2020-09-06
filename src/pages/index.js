@@ -27,7 +27,7 @@ const theme = createMuiTheme({
   spacing: 8,
 })
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   modal: {
     display: "flex",
     alignItems: "center",
@@ -103,7 +103,7 @@ function Game() {
       !isCured && infectedDay >= 0 && day - infectedDay >= 5
   ).length
   const totalPeopleCount = people.length
-  const curedPeopleCount = people.filter(person => person.isCured).length
+  const curedPeopleCount = people.filter((person) => person.isCured).length
 
   return (
     <ThemeProvider theme={theme}>
@@ -162,19 +162,6 @@ function Game() {
             <Help />
           </IconButton>
         </MainStats>
-        <GameBoard
-          {...gameMetrics}
-          dispatch={dispatch}
-          people={people}
-          day={day}
-          gridSize={gridSize}
-          boardSize={boardSize}
-        >
-          <Graph
-            historicalInfectedCount={historicalInfectedCount}
-            totalPeopleCount={totalPeopleCount}
-          />
-        </GameBoard>
         <Stats>
           <div>
             <span style={{ color: `rgba(255, 0, 0, 0.8)` }}>
@@ -190,6 +177,19 @@ function Game() {
             recovered
           </div>
         </Stats>
+        <GameBoard
+          {...gameMetrics}
+          dispatch={dispatch}
+          people={people}
+          day={day}
+          gridSize={gridSize}
+          boardSize={boardSize}
+        >
+          <Graph
+            historicalInfectedCount={historicalInfectedCount}
+            totalPeopleCount={totalPeopleCount}
+          />
+        </GameBoard>
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -234,7 +234,7 @@ function Game() {
 const GameGrid = styled.main`
   color: rgba(255, 255, 255, 0.8);
   max-width: 100vw;
-  width: ${props => `${props.boardSize}px`};
+  width: ${(props) => `${props.boardSize}px`};
   margin: auto;
   padding: 3px;
 `
