@@ -32,7 +32,10 @@ function Person({ personData }) {
         infectedDay={infectedDay}
       >
         {personData.mobility === "SOCIALLY_DISTANCED" && (
-          <SociallyDistancedSquare positionTransition={{ duration: 0.4 }} />
+          <div
+            positionTransition={{ duration: 0.4 }}
+            className={personStyles.sociallyDistancedSquare}
+          />
         )}
         {personData.mobility === "QUARANTINED" && (
           <QuarantinedSquare positionTransition={{ duration: 0.4 }} />
@@ -73,17 +76,6 @@ const PersonShadow = styled(motion.div)`
   content: "";
   box-shadow: #0000009c 4px 3px 6px 0px;
   z-index: 4;
-`;
-
-const SociallyDistancedSquare = styled(motion.div)`
-  height: 100%;
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  position: absolute;
-  border: 3px dashed #595959;
-  box-sizing: border-box;
-  z-index: 10;
 `;
 
 const QuarantinedSquare = styled(motion.div)`
