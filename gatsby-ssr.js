@@ -3,10 +3,3 @@
  *
  * See: https://www.gatsbyjs.org/docs/ssr-apis/
  */
-
-import React from "react"
-import { GameProvider } from "./src/context/gameProvider"
-
-export const wrapRootElement = ({ element }) => (
-  <GameProvider>{element}</GameProvider>
-)

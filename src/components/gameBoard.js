@@ -1,12 +1,8 @@
-import React, { useContext } from "react";
-import { GameContext } from "../context/gameProvider";
+import React from "react";
 import Person from "./person";
 import gameBoardStyles from "./gameBoard.module.scss";
 
-function GameBoard({ children }) {
-  const [state, dispatch] = useContext(GameContext);
-  const { boardSize, gridSize, people, day } = state;
-
+function GameBoard({ boardSize, gridSize, people, day, dispatch, children }) {
   return (
     <div
       className={gameBoardStyles.gameBoard}

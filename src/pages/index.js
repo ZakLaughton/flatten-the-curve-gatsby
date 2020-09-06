@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState, useReducer } from "react";
 import indexStyles from "./index.module.scss";
 import GameBoard from "../components/gameBoard";
 import Graph from "../components/graph";
 import { getInfectedPeopleCount } from "../utils/utils";
-import { GameContext } from "../context/gameProvider";
 import "../styles/global.css";
 import ReactGA from "react-ga";
 import { Backdrop, Button, Fade, Modal, IconButton } from "@material-ui/core";
@@ -14,6 +13,7 @@ import { Helmet } from "react-helmet";
 import { useLocation } from "@reach/router";
 import { useStaticQuery, graphql } from "gatsby";
 import flattenIcon from "../images/flatten-icon.png";
+import reducer, { initialState } from "../context/gameReducer";
 
 const theme = createMuiTheme({
   palette: {
@@ -62,7 +62,7 @@ function Game() {
   };
 
   const classes = useStyles();
-  const [state, dispatch] = useContext(GameContext);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const handleModalOpen = () => {
