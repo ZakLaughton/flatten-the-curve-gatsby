@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import styled from "styled-components";
 import IndexStyles from "./index.module.css";
 import GameBoard from "../components/gameBoard";
 import Graph from "../components/graph";
@@ -125,7 +124,7 @@ function Game() {
         <h2 style={{ fontSize: `1rem`, textAlign: `center` }}>
           Keep the curve as low as possible!
         </h2>
-        <MainStats>
+        <div className={IndexStyles.mainStats}>
           <div>Top of the curve: {Math.floor(topOfTheCurve)}%</div>
           <Button
             color='primary'
@@ -147,7 +146,7 @@ function Game() {
           >
             <Help />
           </IconButton>
-        </MainStats>
+        </div>
         <div className={IndexStyles.stats}>
           <div>
             <span style={{ color: `rgba(255, 0, 0, 0.8)` }}>{infectedPeopleCount}</span> infected (
@@ -206,29 +205,6 @@ function Game() {
     </ThemeProvider>
   );
 }
-
-const Stats = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-evenly;
-  font-size: 1.2rem;
-  flex-wrap: wrap;
-  background-color: rgba(100, 100, 100, 0.5);
-  border-radius: 5px;
-  padding: 5px;
-  margin: 8px 0px;
-`;
-
-const MainStats = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-evenly;
-  font-size: 1.4rem;
-  font-weight: 500;
-  margin: 8px;
-  align-items: center;
-  color: white;
-`;
 
 const query = graphql`
   query SEO {
