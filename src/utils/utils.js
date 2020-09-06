@@ -7,11 +7,12 @@ export function shuffleArray(arrayToShuffle) {
       arrayToShuffle[i] = arrayToShuffle[j],
       arrayToShuffle[j] = x
   );
-  return arrayToShuffle;
+  return arrayToShuffle
 }
 
 export function getInfectedPeopleCount(people) {
-  return people.filter((person) => !person.isCured && person.infectedDay >= 0).length;
+  return people.filter((person) => !person.isCured && person.infectedDay >= 0)
+    .length
 }
 
 // TODO: Make this

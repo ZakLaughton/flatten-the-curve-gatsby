@@ -53,7 +53,7 @@ function Person({ personData }) {
   )
 }
 
-const StyledPerson = styled(motion.div).attrs(props => ({
+const StyledPerson = styled(motion.div).attrs((props) => ({
   style: {
     height: `${props.cellSizeInPercent}%`,
     width: `${props.cellSizeInPercent}%`,
@@ -76,7 +76,7 @@ const StyledPerson = styled(motion.div).attrs(props => ({
   z-index: 5;
 `
 
-const PersonShadow = styled(motion.div).attrs(props => ({
+const PersonShadow = styled(motion.div).attrs((props) => ({
   style: {
     height: `${props.cellSizeInPercent}%`,
     width: `${props.cellSizeInPercent}%`,
@@ -92,7 +92,7 @@ const PersonShadow = styled(motion.div).attrs(props => ({
   z-index: 4;
 `
 
-const SociallyDistancedSquare = styled(motion.div).attrs(props => ({
+const SociallyDistancedSquare = styled(motion.div).attrs((props) => ({
   style: {
     height: `${props.cellSizeInPercent}%`,
     width: `${props.cellSizeInPercent}%`,
@@ -106,7 +106,7 @@ const SociallyDistancedSquare = styled(motion.div).attrs(props => ({
   z-index: 10;
 `
 
-const QuarantinedSquare = styled(motion.div).attrs(props => ({
+const QuarantinedSquare = styled(motion.div).attrs((props) => ({
   style: {
     height: `${props.cellSizeInPercent}%`,
     width: `${props.cellSizeInPercent}%`,

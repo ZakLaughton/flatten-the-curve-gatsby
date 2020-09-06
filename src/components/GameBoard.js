@@ -10,7 +10,7 @@ function GameBoard({ children }) {
   return (
     <Board
       boardSize={boardSize}
-      onContextMenu={e => {
+      onContextMenu={(e) => {
         e.preventDefault()
         // setInterval(movePeople, 400);
         dispatch({ type: "INCREMENT_DAY" })
@@ -33,7 +33,7 @@ function GameBoard({ children }) {
 
 const Board = styled.div`
   width: 100%;
-  max-width: ${props => `${props.boardSize}px`};
+  max-width: ${(props) => `${props.boardSize}px`};
   height: 0;
   padding-bottom: 100%;
   background-color: #b7b7b7;

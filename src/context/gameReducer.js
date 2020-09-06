@@ -22,7 +22,7 @@ export default function reducer(state, { type, payload }) {
 
         if (
           newPeople.some(
-            person =>
+            (person) =>
               person.location.x === newLocation.x &&
               person.location.y === newLocation.y
           )
@@ -40,38 +40,38 @@ export default function reducer(state, { type, payload }) {
         let peopleCopy = [...state.people]
         const peopleToRecover = peopleCopy
           .filter(
-            person =>
+            (person) =>
               person.infectedDay !== -1 &&
               !person.isCured &&
               state.day - person.infectedDay > 19
           )
-          .map(person => person.id)
-        peopleCopy = peopleCopy.map(person => {
+          .map((person) => person.id)
+        peopleCopy = peopleCopy.map((person) => {
           if (peopleToRecover.includes(person.id)) person.isCured = true
           return person
         })
 
         const contagiousPeople = state.people.filter(
-          person =>
+          (person) =>
             person.infectedDay >= 0 &&
             !person.isCured &&
             person.mobility !== "QUARANTINED"
         )
-        let infectionZones = contagiousPeople.map(person => {
+        let infectionZones = contagiousPeople.map((person) => {
           const neighborLocations = getSurroundingCells(person.location)
-            .filter(location =>
+            .filter((location) =>
               ["N", "E", "S", "W"].includes(location.direction)
             )
-            .map(surroundingCell => surroundingCell.coordinates)
+            .map((surroundingCell) => surroundingCell.coordinates)
 
           return neighborLocations
         })
         infectionZones = infectionZones.flat()
-        const newlyInfectedPeople = state.people.map(person => {
+        const newlyInfectedPeople = state.people.map((person) => {
           if (
             person.infectedDay === -1 &&
             infectionZones.some(
-              infectionZone =>
+              (infectionZone) =>
                 person.location.x === infectionZone.x &&
                 person.location.y === infectionZone.y
             )
@@ -117,7 +117,7 @@ export default function reducer(state, { type, payload }) {
     case "UPDATE_PERSON_MOBILITY":
       const newPeople = [...state.people]
       const personIndex = newPeople.findIndex(
-        person => person.id === payload.id
+        (person) => person.id === payload.id
       )
       newPeople[personIndex].mobility = payload.mobility
 
@@ -199,19 +199,19 @@ function getSurroundingCells(location, gridSize) {
 
   if (isOnLeftEdge(location))
     surroundingCells = surroundingCells.filter(
-      move => !["NW", "W", "SW"].includes(move.direction)
+      (move) => !["NW", "W", "SW"].includes(move.direction)
     )
   if (isOnBottomEdge(location))
     surroundingCells = surroundingCells.filter(
-      move => !["SW", "S", "SE"].includes(move.direction)
+      (move) => !["SW", "S", "SE"].includes(move.direction)
     )
   if (isOnRightEdge(location))
     surroundingCells = surroundingCells.filter(
-      move => !["SE", "E", "NE"].includes(move.direction)
+      (move) => !["SE", "E", "NE"].includes(move.direction)
     )
   if (isOnTopEdge(location))
     surroundingCells = surroundingCells.filter(
-      move => !["NE", "N", "NW"].includes(move.direction)
+      (move) => !["NE", "N", "NW"].includes(move.direction)
     )
 
   return surroundingCells
