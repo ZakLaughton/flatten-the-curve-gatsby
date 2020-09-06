@@ -148,7 +148,7 @@ function Game() {
             <Help />
           </IconButton>
         </MainStats>
-        <Stats>
+        <div className={IndexStyles.stats}>
           <div>
             <span style={{ color: `rgba(255, 0, 0, 0.8)` }}>{infectedPeopleCount}</span> infected (
             <span style={{ color: `#448844` }}>{symptomaticCount}</span>{" "}
@@ -157,7 +157,7 @@ function Game() {
           <div>
             <span style={{ color: `#57c1ff` }}>{curedPeopleCount}</span> recovered
           </div>
-        </Stats>
+        </div>
         <GameBoard
           {...gameMetrics}
           dispatch={dispatch}
@@ -206,14 +206,6 @@ function Game() {
     </ThemeProvider>
   );
 }
-
-const GameGrid = styled.main`
-  color: rgba(255, 255, 255, 0.8);
-  max-width: 100vw;
-  width: ${(props) => `${props.boardSize}px`};
-  margin: auto;
-  padding: 3px;
-`;
 
 const Stats = styled.div`
   display: flex;
