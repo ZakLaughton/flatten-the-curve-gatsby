@@ -1,5 +1,5 @@
-import React from "react"
-import { VictoryArea } from "victory"
+import React from "react";
+import { VictoryArea } from "victory";
 
 export const Graph = ({ historicalInfectedCount, totalPeopleCount }) => {
   return (
@@ -15,7 +15,7 @@ export const Graph = ({ historicalInfectedCount, totalPeopleCount }) => {
       height={800}
       width={800}
     />
-  )
-}
+  );
+};
 
-export default Graph
+export default Graph;

@@ -1,23 +1,23 @@
-import React, { useContext } from "react"
-import { GameContext } from "../context/gameProvider"
-import { motion } from "framer-motion"
-import styled from "styled-components"
+import React, { useContext } from "react";
+import { GameContext } from "../context/gameProvider";
+import { motion } from "framer-motion";
+import styled from "styled-components";
 
 function Person({ personData }) {
-  const [state, dispatch] = useContext(GameContext)
-  const { gridSize, day } = state
-  const { id, infectedDay, isCured, location } = personData
-  const isSymptomatic = !isCured && infectedDay >= 0 && day - infectedDay >= 5
+  const [state, dispatch] = useContext(GameContext);
+  const { gridSize, day } = state;
+  const { id, infectedDay, isCured, location } = personData;
+  const isSymptomatic = !isCured && infectedDay >= 0 && day - infectedDay >= 5;
   const handleClick = () => {
-    const newMobility = isSymptomatic ? "QUARANTINED" : "SOCIALLY_DISTANCED"
+    const newMobility = isSymptomatic ? "QUARANTINED" : "SOCIALLY_DISTANCED";
     dispatch({
       type: "UPDATE_PERSON_MOBILITY",
       payload: { id, mobility: newMobility },
-    })
-    dispatch({ type: "INCREMENT_DAY" })
-  }
+    });
+    dispatch({ type: "INCREMENT_DAY" });
+  };
 
-  const cellSizeInPercent = 98 / gridSize
+  const cellSizeInPercent = 98 / gridSize;
 
   return (
     <>
@@ -50,7 +50,7 @@ function Person({ personData }) {
         cellSizeInPercent={cellSizeInPercent}
       />
     </>
-  )
+  );
 }
 
 const StyledPerson = styled(motion.div).attrs((props) => ({
@@ -74,7 +74,7 @@ const StyledPerson = styled(motion.div).attrs((props) => ({
   border: 1px solid black;
   box-sizing: border-box;
   z-index: 5;
-`
+`;
 
 const PersonShadow = styled(motion.div).attrs((props) => ({
   style: {
@@ -90,7 +90,7 @@ const PersonShadow = styled(motion.div).attrs((props) => ({
   content: "";
   box-shadow: #0000009c 4px 3px 6px 0px;
   z-index: 4;
-`
+`;
 
 const SociallyDistancedSquare = styled(motion.div).attrs((props) => ({
   style: {
@@ -104,7 +104,7 @@ const SociallyDistancedSquare = styled(motion.div).attrs((props) => ({
   border: 3px dashed #595959;
   box-sizing: border-box;
   z-index: 10;
-`
+`;
 
 const QuarantinedSquare = styled(motion.div).attrs((props) => ({
   style: {
@@ -118,6 +118,6 @@ const QuarantinedSquare = styled(motion.div).attrs((props) => ({
   position: absolute;
   box-sizing: border-box;
   z-index: 10;
-`
+`;
 
-export default Person
+export default Person;

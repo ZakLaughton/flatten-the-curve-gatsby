@@ -1,19 +1,19 @@
-import React, { useContext, useEffect, useState } from "react"
-import styled from "styled-components"
-import GameBoard from "../components/GameBoard"
-import Graph from "../components/Graph"
-import { getInfectedPeopleCount } from "../utils/utils"
-import { GameContext } from "../context/gameProvider"
-import "../styles/global.css"
-import ReactGA from "react-ga"
-import { Backdrop, Button, Fade, Modal, IconButton } from "@material-ui/core"
-import { createMuiTheme, makeStyles } from "@material-ui/core/styles"
-import { ThemeProvider } from "@material-ui/styles"
-import { Help } from "@material-ui/icons"
-import { Helmet } from "react-helmet"
-import { useLocation } from "@reach/router"
-import { useStaticQuery, graphql } from "gatsby"
-import flattenIcon from "../images/flatten-icon.png"
+import React, { useContext, useEffect, useState } from "react";
+import styled from "styled-components";
+import GameBoard from "../components/GameBoard";
+import Graph from "../components/Graph";
+import { getInfectedPeopleCount } from "../utils/utils";
+import { GameContext } from "../context/gameProvider";
+import "../styles/global.css";
+import ReactGA from "react-ga";
+import { Backdrop, Button, Fade, Modal, IconButton } from "@material-ui/core";
+import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
+import { Help } from "@material-ui/icons";
+import { Helmet } from "react-helmet";
+import { useLocation } from "@reach/router";
+import { useStaticQuery, graphql } from "gatsby";
+import flattenIcon from "../images/flatten-icon.png";
 
 const theme = createMuiTheme({
   palette: {
@@ -25,7 +25,7 @@ const theme = createMuiTheme({
     },
   },
   spacing: 8,
-})
+});
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -39,51 +39,51 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
-}))
+}));
 
-const ARRAY_SEARCH_RESULT_NOT_FOUND = -1
+const ARRAY_SEARCH_RESULT_NOT_FOUND = -1;
 
 function initializeReactGA() {
   if (
     document.location.hostname.search(`zaklaughton.dev`) !==
     ARRAY_SEARCH_RESULT_NOT_FOUND
   ) {
-    ReactGA.initialize(`UA-67511792-5`)
-    ReactGA.pageview(`/`)
+    ReactGA.initialize(`UA-67511792-5`);
+    ReactGA.pageview(`/`);
   }
 }
 function Game() {
-  const { pathname } = useLocation()
-  const { site } = useStaticQuery(query)
+  const { pathname } = useLocation();
+  const { site } = useStaticQuery(query);
   const {
     defaultDescription,
     siteUrl,
     defaultImage,
     twitterUsername,
-  } = site.siteMetadata
+  } = site.siteMetadata;
 
   const seo = {
     title: "FLATTEN THE CURVE - THE GAME",
     description: defaultDescription,
     image: `${siteUrl}${flattenIcon}`,
     url: `${siteUrl}${pathname}`,
-  }
+  };
 
-  const classes = useStyles()
-  const [state, dispatch] = useContext(GameContext)
-  const [isModalOpen, setIsModalOpen] = useState(true)
+  const classes = useStyles();
+  const [state, dispatch] = useContext(GameContext);
+  const [isModalOpen, setIsModalOpen] = useState(true);
 
   const handleModalOpen = () => {
-    setIsModalOpen(true)
-  }
+    setIsModalOpen(true);
+  };
   const handleModalClose = () => {
-    setIsModalOpen(false)
-  }
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
-    initializeReactGA()
-    dispatch({ type: "RESTART" })
-  }, [dispatch])
+    initializeReactGA();
+    dispatch({ type: "RESTART" });
+  }, [dispatch]);
 
   const {
     day,
@@ -93,17 +93,17 @@ function Game() {
     boardSize,
     peopleDensity,
     topOfTheCurve,
-  } = state
+  } = state;
 
-  const gameMetrics = { gridSize, boardSize, peopleDensity }
+  const gameMetrics = { gridSize, boardSize, peopleDensity };
 
-  const infectedPeopleCount = getInfectedPeopleCount(people)
+  const infectedPeopleCount = getInfectedPeopleCount(people);
   const symptomaticCount = people.filter(
     ({ isCured, infectedDay }) =>
       !isCured && infectedDay >= 0 && day - infectedDay >= 5
-  ).length
-  const totalPeopleCount = people.length
-  const curedPeopleCount = people.filter((person) => person.isCured).length
+  ).length;
+  const totalPeopleCount = people.length;
+  const curedPeopleCount = people.filter((person) => person.isCured).length;
 
   return (
     <ThemeProvider theme={theme}>
@@ -145,7 +145,7 @@ function Game() {
             color="primary"
             variant="contained"
             onClick={() => {
-              dispatch({ type: "RESTART" })
+              dispatch({ type: "RESTART" });
             }}
           >
             Reset
@@ -228,7 +228,7 @@ function Game() {
         </Modal>
       </GameGrid>
     </ThemeProvider>
-  )
+  );
 }
 
 const GameGrid = styled.main`
@@ -237,7 +237,7 @@ const GameGrid = styled.main`
   width: ${(props) => `${props.boardSize}px`};
   margin: auto;
   padding: 3px;
-`
+`;
 
 const Stats = styled.div`
   display: flex;
@@ -249,7 +249,7 @@ const Stats = styled.div`
   border-radius: 5px;
   padding: 5px;
   margin: 8px 0px;
-`
+`;
 
 const MainStats = styled.div`
   display: flex;
@@ -260,7 +260,7 @@ const MainStats = styled.div`
   margin: 8px;
   align-items: center;
   color: white;
-`
+`;
 
 const query = graphql`
   query SEO {
@@ -273,6 +273,6 @@ const query = graphql`
       }
     }
   }
-`
+`;
 
-export default Game
+export default Game;
