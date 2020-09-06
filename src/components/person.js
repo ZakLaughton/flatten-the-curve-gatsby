@@ -32,15 +32,12 @@ function Person({ personData }) {
         infectedDay={infectedDay}
       >
         {personData.mobility === "SOCIALLY_DISTANCED" && (
-          <div
-            positionTransition={{ duration: 0.4 }}
-            className={personStyles.sociallyDistancedSquare}
-          />
+          <div className={personStyles.sociallyDistancedSquare} />
         )}
         {personData.mobility === "QUARANTINED" && (
-          <div positionTransition={{ duration: 0.4 }} className={personStyles.quarantinedSquare} />
+          <div className={personStyles.quarantinedSquare} />
         )}
-        <div positionTransition={{ duration: 0.4 }} className={personStyles.personShadow} />
+        <div className={personStyles.personShadow} />
       </StyledPerson>
     </>
   );
