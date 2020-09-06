@@ -32,24 +32,12 @@ function Person({ personData }) {
         infectedDay={infectedDay}
       >
         {personData.mobility === "SOCIALLY_DISTANCED" && (
-          <SociallyDistancedSquare
-            positionTransition={{ duration: 0.4 }}
-            location={location}
-            cellSizeInPercent={cellSizeInPercent}
-          />
+          <SociallyDistancedSquare positionTransition={{ duration: 0.4 }} />
         )}
         {personData.mobility === "QUARANTINED" && (
-          <QuarantinedSquare
-            positionTransition={{ duration: 0.4 }}
-            location={location}
-            cellSizeInPercent={cellSizeInPercent}
-          />
+          <QuarantinedSquare positionTransition={{ duration: 0.4 }} />
         )}
-        <PersonShadow
-          positionTransition={{ duration: 0.4 }}
-          location={location}
-          cellSizeInPercent={cellSizeInPercent}
-        />
+        <PersonShadow positionTransition={{ duration: 0.4 }} />
       </StyledPerson>
     </>
   );
