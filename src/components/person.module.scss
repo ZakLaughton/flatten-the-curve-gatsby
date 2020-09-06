@@ -15,7 +15,13 @@
 }
 
 .quarantined-square {
+  border: 3px ridge #4c0000;
+  z-index: 10;
 }
 
 .person-shadow {
+  border-radius: 50%;
+  content: "";
+  box-shadow: #0000009c 4px 3px 6px 0px;
+  z-index: 4;
 }

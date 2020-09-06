@@ -38,9 +38,9 @@ function Person({ personData }) {
           />
         )}
         {personData.mobility === "QUARANTINED" && (
-          <QuarantinedSquare positionTransition={{ duration: 0.4 }} />
+          <div positionTransition={{ duration: 0.4 }} className={personStyles.quarantinedSquare} />
         )}
-        <PersonShadow positionTransition={{ duration: 0.4 }} />
+        <div positionTransition={{ duration: 0.4 }} className={personStyles.personShadow} />
       </StyledPerson>
     </>
   );
@@ -63,30 +63,6 @@ const StyledPerson = styled(motion.div).attrs((props) => ({
   border: 1px solid black;
   box-sizing: border-box;
   z-index: 5;
-`;
-
-const PersonShadow = styled(motion.div)`
-  height: 100%;
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  border-radius: 50%;
-  position: absolute;
-  box-sizing: border-box;
-  content: "";
-  box-shadow: #0000009c 4px 3px 6px 0px;
-  z-index: 4;
-`;
-
-const QuarantinedSquare = styled(motion.div)`
-  height: 100%;
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  border: 3px ridge #4c0000;
-  position: absolute;
-  box-sizing: border-box;
-  z-index: 10;
 `;
 
 export default Person;
