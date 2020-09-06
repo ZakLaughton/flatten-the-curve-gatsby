@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import IndexStyles from "./index.module.css";
+import indexStyles from "./index.module.scss";
 import GameBoard from "../components/gameBoard";
 import Graph from "../components/graph";
 import { getInfectedPeopleCount } from "../utils/utils";
@@ -98,7 +98,7 @@ function Game() {
 
   return (
     <ThemeProvider theme={theme}>
-      <main className={IndexStyles.gameGrid}>
+      <main className={indexStyles.gameGrid}>
         <Helmet title={seo.title}>
           {seo.url && <meta property='og:url' content={seo.url} />}
           <meta property='og:type' content='website' />
@@ -124,7 +124,7 @@ function Game() {
         <h2 style={{ fontSize: `1rem`, textAlign: `center` }}>
           Keep the curve as low as possible!
         </h2>
-        <div className={IndexStyles.mainStats}>
+        <div className={indexStyles.mainStats}>
           <div>Top of the curve: {Math.floor(topOfTheCurve)}%</div>
           <Button
             color='primary'
@@ -147,7 +147,7 @@ function Game() {
             <Help />
           </IconButton>
         </div>
-        <div className={IndexStyles.stats}>
+        <div className={indexStyles.stats}>
           <div>
             <span style={{ color: `rgba(255, 0, 0, 0.8)` }}>{infectedPeopleCount}</span> infected (
             <span style={{ color: `#448844` }}>{symptomaticCount}</span>{" "}
