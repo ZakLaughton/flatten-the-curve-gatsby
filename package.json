@@ -27,7 +27,7 @@
     "victory": "^34.3.12"
   },
   "devDependencies": {
-    "prettier": "^1.19.1"
+    "prettier": "^2.1.1"
   },
   "keywords": [
     "gatsby"
