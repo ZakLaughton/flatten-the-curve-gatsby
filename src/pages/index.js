@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+import IndexStyles from "./index.module.css";
 import GameBoard from "../components/gameBoard";
 import Graph from "../components/graph";
 import { getInfectedPeopleCount } from "../utils/utils";
@@ -98,7 +99,7 @@ function Game() {
 
   return (
     <ThemeProvider theme={theme}>
-      <GameGrid boardSize={boardSize}>
+      <main className={IndexStyles.gameGrid}>
         <Helmet title={seo.title}>
           {seo.url && <meta property='og:url' content={seo.url} />}
           <meta property='og:type' content='website' />
@@ -201,7 +202,7 @@ function Game() {
             </div>
           </Fade>
         </Modal>
-      </GameGrid>
+      </main>
     </ThemeProvider>
   );
 }
