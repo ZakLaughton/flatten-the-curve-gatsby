@@ -1,15 +1,15 @@
 import React, { useContext } from "react"
 import { GameContext } from "../context/gameProvider"
 import Person from "./Person"
-import styled from "styled-components"
+import gameBoardStyles from "./gameBoard.module.scss"
 
 function GameBoard({ children }) {
   const [state, dispatch] = useContext(GameContext)
   const { boardSize, gridSize, people, day } = state
 
   return (
-    <Board
-      boardSize={boardSize}
+    <div
+className={gameBoardStyles.gameBoard}
       onContextMenu={(e) => {
         e.preventDefault()
         // setInterval(movePeople, 400);
@@ -27,22 +27,8 @@ function GameBoard({ children }) {
         />
       ))}
       {children}
-    </Board>
+    </div>
   )
 }
-
-const Board = styled.div`
-  width: 100%;
-  max-width: ${(props) => `${props.boardSize}px`};
-  height: 0;
-  padding-bottom: 100%;
-  background-color: #b7b7b7;
-  position: relative;
-  margin: auto;
-  padding-bottom: 100%;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: #0000009c 4px 3px 6px 0px;
-`
 
 export default GameBoard
