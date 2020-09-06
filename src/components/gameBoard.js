@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import { GameContext } from "../context/gameProvider"
-import Person from "./Person"
+import Person from "./person"
 import gameBoardStyles from "./gameBoard.module.scss"
 
 function GameBoard({ children }) {
