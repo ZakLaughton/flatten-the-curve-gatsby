@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import GameBoard from "../components/GameBoard";
-import Graph from "../components/Graph";
+import GameBoard from "../components/gameBoard";
+import Graph from "../components/graph";
 import { getInfectedPeopleCount } from "../utils/utils";
 import { GameContext } from "../context/gameProvider";
 import "../styles/global.css";
@@ -44,10 +44,7 @@ const useStyles = makeStyles((theme) => ({
 const ARRAY_SEARCH_RESULT_NOT_FOUND = -1;
 
 function initializeReactGA() {
-  if (
-    document.location.hostname.search(`zaklaughton.dev`) !==
-    ARRAY_SEARCH_RESULT_NOT_FOUND
-  ) {
+  if (document.location.hostname.search(`zaklaughton.dev`) !== ARRAY_SEARCH_RESULT_NOT_FOUND) {
     ReactGA.initialize(`UA-67511792-5`);
     ReactGA.pageview(`/`);
   }
@@ -55,12 +52,7 @@ function initializeReactGA() {
 function Game() {
   const { pathname } = useLocation();
   const { site } = useStaticQuery(query);
-  const {
-    defaultDescription,
-    siteUrl,
-    defaultImage,
-    twitterUsername,
-  } = site.siteMetadata;
+  const { defaultDescription, siteUrl, defaultImage, twitterUsername } = site.siteMetadata;
 
   const seo = {
     title: "FLATTEN THE CURVE - THE GAME",
@@ -99,8 +91,7 @@ function Game() {
 
   const infectedPeopleCount = getInfectedPeopleCount(people);
   const symptomaticCount = people.filter(
-    ({ isCured, infectedDay }) =>
-      !isCured && infectedDay >= 0 && day - infectedDay >= 5
+    ({ isCured, infectedDay }) => !isCured && infectedDay >= 0 && day - infectedDay >= 5
   ).length;
   const totalPeopleCount = people.length;
   const curedPeopleCount = people.filter((person) => person.isCured).length;
@@ -109,22 +100,16 @@ function Game() {
     <ThemeProvider theme={theme}>
       <GameGrid boardSize={boardSize}>
         <Helmet title={seo.title}>
-          {seo.url && <meta property="og:url" content={seo.url} />}
-          <meta property="og:type" content="website" />
-          {seo.title && <meta property="og:title" content={seo.title} />}
-          {seo.description && (
-            <meta property="og:description" content={seo.description} />
-          )}
-          {seo.image && <meta property="og:image" content={seo.image} />}
-          <meta name="twitter:card" content="summary_large_image" />
-          {twitterUsername && (
-            <meta name="twitter:creator" content={twitterUsername} />
-          )}
-          {seo.title && <meta name="twitter:title" content={seo.title} />}
-          {seo.description && (
-            <meta name="twitter:description" content={seo.description} />
-          )}
-          {seo.image && <meta name="twitter:image" content={seo.image} />}
+          {seo.url && <meta property='og:url' content={seo.url} />}
+          <meta property='og:type' content='website' />
+          {seo.title && <meta property='og:title' content={seo.title} />}
+          {seo.description && <meta property='og:description' content={seo.description} />}
+          {seo.image && <meta property='og:image' content={seo.image} />}
+          <meta name='twitter:card' content='summary_large_image' />
+          {twitterUsername && <meta name='twitter:creator' content={twitterUsername} />}
+          {seo.title && <meta name='twitter:title' content={seo.title} />}
+          {seo.description && <meta name='twitter:description' content={seo.description} />}
+          {seo.image && <meta name='twitter:image' content={seo.image} />}
         </Helmet>
         <h1
           style={{
@@ -142,8 +127,8 @@ function Game() {
         <MainStats>
           <div>Top of the curve: {Math.floor(topOfTheCurve)}%</div>
           <Button
-            color="primary"
-            variant="contained"
+            color='primary'
+            variant='contained'
             onClick={() => {
               dispatch({ type: "RESTART" });
             }}
@@ -151,12 +136,12 @@ function Game() {
             Reset
           </Button>
           <IconButton
-            type="button"
-            variant="outlined"
+            type='button'
+            variant='outlined'
             onClick={handleModalOpen}
-            color="secondary"
+            color='secondary'
             style={{ backgroundColor: `white` }}
-            size="small"
+            size='small'
             edge={false}
           >
             <Help />
@@ -164,17 +149,12 @@ function Game() {
         </MainStats>
         <Stats>
           <div>
-            <span style={{ color: `rgba(255, 0, 0, 0.8)` }}>
-              {infectedPeopleCount}
-            </span>{" "}
-            infected (
+            <span style={{ color: `rgba(255, 0, 0, 0.8)` }}>{infectedPeopleCount}</span> infected (
             <span style={{ color: `#448844` }}>{symptomaticCount}</span>{" "}
-            {symptomaticCount > 1 || symptomaticCount === 0 ? "have" : "has"}{" "}
-            symptoms)
+            {symptomaticCount > 1 || symptomaticCount === 0 ? "have" : "has"} symptoms)
           </div>
           <div>
-            <span style={{ color: `#57c1ff` }}>{curedPeopleCount}</span>{" "}
-            recovered
+            <span style={{ color: `#57c1ff` }}>{curedPeopleCount}</span> recovered
           </div>
         </Stats>
         <GameBoard
@@ -191,8 +171,8 @@ function Game() {
           />
         </GameBoard>
         <Modal
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
+          aria-labelledby='transition-modal-title'
+          aria-describedby='transition-modal-description'
           className={classes.modal}
           open={isModalOpen}
           onClose={handleModalClose}
@@ -204,24 +184,19 @@ function Game() {
         >
           <Fade in={isModalOpen}>
             <div className={classes.paper}>
-              <h2 style={{ textAlign: `center`, marginBottom: `1rem` }}>
-                Rules
-              </h2>
+              <h2 style={{ textAlign: `center`, marginBottom: `1rem` }}>Rules</h2>
               <p style={{ fontSize: `1.3rem`, textAlign: `center` }}>
-                GOAL: Reduce the amount of people infected at any one time
-                through social distancing!
+                GOAL: Reduce the amount of people infected at any one time through social
+                distancing!
               </p>
               <p style={{ fontSize: `1.3rem`, textAlign: `center` }}>
-                One person starts infected. Symptoms appear 5 moves after
-                infection.
+                One person starts infected. Symptoms appear 5 moves after infection.
               </p>
               <p style={{ fontSize: `1.3rem`, textAlign: `center` }}>
-                Click or tap healthy people to social distance (lower chance of
-                infection).
+                Click or tap healthy people to social distance (lower chance of infection).
               </p>
               <p style={{ fontSize: `1.3rem`, textAlign: `center` }}>
-                Click or tap symptomatic people to quarantine (no chance of
-                infecting others).
+                Click or tap symptomatic people to quarantine (no chance of infecting others).
               </p>
             </div>
           </Fade>
