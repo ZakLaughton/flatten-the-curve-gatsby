@@ -45,13 +45,12 @@ function Person({ personData }) {
             cellSizeInPercent={cellSizeInPercent}
           />
         )}
+        <PersonShadow
+          positionTransition={{ duration: 0.4 }}
+          location={location}
+          cellSizeInPercent={cellSizeInPercent}
+        />
       </StyledPerson>
-
-      <PersonShadow
-        positionTransition={{ duration: 0.4 }}
-        location={location}
-        cellSizeInPercent={cellSizeInPercent}
-      />
     </>
   );
 }
@@ -75,14 +74,11 @@ const StyledPerson = styled(motion.div).attrs((props) => ({
   z-index: 5;
 `;
 
-const PersonShadow = styled(motion.div).attrs((props) => ({
-  style: {
-    height: `${props.cellSizeInPercent}%`,
-    width: `${props.cellSizeInPercent}%`,
-    left: `${props.cellSizeInPercent * props.location.x + 1}%`,
-    bottom: `${props.cellSizeInPercent * props.location.y + 1}%`,
-  },
-}))`
+const PersonShadow = styled(motion.div)`
+  height: 100%;
+  width: 100%;
+  left: 0;
+  bottom: 0;
   border-radius: 50%;
   position: absolute;
   box-sizing: border-box;
