@@ -38,15 +38,15 @@ function Person({ personData }) {
             cellSizeInPercent={cellSizeInPercent}
           />
         )}
+        {personData.mobility === "QUARANTINED" && (
+          <QuarantinedSquare
+            positionTransition={{ duration: 0.4 }}
+            location={location}
+            cellSizeInPercent={cellSizeInPercent}
+          />
+        )}
       </StyledPerson>
 
-      {personData.mobility === "QUARANTINED" && (
-        <QuarantinedSquare
-          positionTransition={{ duration: 0.4 }}
-          location={location}
-          cellSizeInPercent={cellSizeInPercent}
-        />
-      )}
       <PersonShadow
         positionTransition={{ duration: 0.4 }}
         location={location}
@@ -102,14 +102,11 @@ const SociallyDistancedSquare = styled(motion.div)`
   z-index: 10;
 `;
 
-const QuarantinedSquare = styled(motion.div).attrs((props) => ({
-  style: {
-    height: `${props.cellSizeInPercent}%`,
-    width: `${props.cellSizeInPercent}%`,
-    left: `${props.cellSizeInPercent * props.location.x + 1}%`,
-    bottom: `${props.cellSizeInPercent * props.location.y + 1}%`,
-  },
-}))`
+const QuarantinedSquare = styled(motion.div)`
+  height: 100%;
+  width: 100%;
+  left: 0;
+  bottom: 0;
   border: 3px ridge #4c0000;
   position: absolute;
   box-sizing: border-box;
