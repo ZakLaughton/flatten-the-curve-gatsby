@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { GameContext } from "../context/gameProvider";
 import { motion } from "framer-motion";
+import personStyles from "./person.module.scss";
 import styled from "styled-components";
 
 function Person({ personData }) {
@@ -29,14 +30,16 @@ function Person({ personData }) {
         positionTransition={{ duration: 0.4 }}
         onClick={handleClick}
         infectedDay={infectedDay}
-      />
-      {personData.mobility === "SOCIALLY_DISTANCED" && (
-        <SociallyDistancedSquare
-          positionTransition={{ duration: 0.4 }}
-          location={location}
-          cellSizeInPercent={cellSizeInPercent}
-        />
-      )}
+      >
+        {personData.mobility === "SOCIALLY_DISTANCED" && (
+          <SociallyDistancedSquare
+            positionTransition={{ duration: 0.4 }}
+            location={location}
+            cellSizeInPercent={cellSizeInPercent}
+          />
+        )}
+      </StyledPerson>
+
       {personData.mobility === "QUARANTINED" && (
         <QuarantinedSquare
           positionTransition={{ duration: 0.4 }}
@@ -57,11 +60,7 @@ const StyledPerson = styled(motion.div).attrs((props) => ({
   style: {
     height: `${props.cellSizeInPercent}%`,
     width: `${props.cellSizeInPercent}%`,
-    backgroundColor: props.isCured
-      ? "#57c1ff"
-      : props.isSymptomatic
-      ? "#448844"
-      : "white",
+    backgroundColor: props.isCured ? "#57c1ff" : props.isSymptomatic ? "#448844" : "white",
     // Show all infected (for debugging):
     // backgroundColor: props.infectedDay >= 0 ? "#448844" : "white",
     left: `${props.cellSizeInPercent * props.location.x + 1}%`,
@@ -92,14 +91,11 @@ const PersonShadow = styled(motion.div).attrs((props) => ({
   z-index: 4;
 `;
 
-const SociallyDistancedSquare = styled(motion.div).attrs((props) => ({
-  style: {
-    height: `${props.cellSizeInPercent}%`,
-    width: `${props.cellSizeInPercent}%`,
-    left: `${props.cellSizeInPercent * props.location.x + 1}%`,
-    bottom: `${props.cellSizeInPercent * props.location.y + 1}%`,
-  },
-}))`
+const SociallyDistancedSquare = styled(motion.div)`
+  height: 100%;
+  width: 100%;
+  left: 0;
+  bottom: 0;
   position: absolute;
   border: 3px dashed #595959;
   box-sizing: border-box;
