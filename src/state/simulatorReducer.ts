@@ -174,21 +174,23 @@ export default function reducer(state: State, { type, payload }) {
   }
 }
 
-export function init(initialState) {
+export function init(initialState: State) {
   const { gridSize, peopleDensity } = initialState;
   const numberOfPeople = Math.floor(gridSize * gridSize * peopleDensity) || 4;
   const generateInitialPeople = () => {
     const allPositions = generateAllPositions();
     let shuffledLocations = shuffleArray(allPositions);
-    const people = shuffledLocations.slice(0, numberOfPeople).map((location, index) => {
-      return {
-        id: index,
-        location,
-        infectedDay: -1,
-        isCured: false,
-        mobility: "FREE",
-      };
-    });
+    const people = shuffledLocations
+      .slice(0, numberOfPeople)
+      .map((location: Location, index: number) => {
+        return {
+          id: index,
+          location,
+          infectedDay: -1,
+          isCured: false,
+          mobility: "FREE",
+        };
+      });
     return people;
   };
 
