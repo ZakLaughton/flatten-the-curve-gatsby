@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useReducer } from "react";
 import indexStyles from "./index.module.css";
 import SimulatorBoard from "../components/simulatorBoard";
+import SimulatorSettingsForm from "../components/simulatorSettingsForm";
 import Graph from "../components/graph";
 import { checkInfected } from "../utils/utils";
 import "../styles/global.css";
@@ -57,6 +58,7 @@ function initializeReactGA() {
     ReactGA.pageview(`/`);
   }
 }
+
 function Game() {
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -117,47 +119,6 @@ function Game() {
   ).length;
   const totalPeopleCount = people.length;
   const curedPeopleCount = people.filter((person) => person.isCured).length;
-
-  const handleSliderChange = (event: any, newValue: number) => {
-    dispatch({
-      type: "UPDATE_PERSON_BEHAVIOR",
-      payload: {
-        propertyName: "mobility",
-        propertyValue: "SOCIALLY_DISTANCED",
-        percentToTurnOn: newValue,
-      },
-    });
-  };
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.value === "" ? 0 : Number(event.target.value);
-    dispatch({
-      type: "UPDATE_PERSON_BEHAVIOR",
-      payload: {
-        propertyName: "mobility",
-        propertyValue: "SOCIALLY_DISTANCED",
-        percentToTurnOn: newValue,
-      },
-    });
-  };
-
-  const handleBlur = () => {
-    let newValue;
-    if (sociallyDistancedPercent < 0) {
-      newValue = 0;
-    } else if (sociallyDistancedPercent > 100) {
-      newValue = 100;
-    }
-
-    dispatch({
-      type: "UPDATE_PERSON_BEHAVIOR",
-      payload: {
-        propertyName: "mobility",
-        propertyValue: "SOCIALLY_DISTANCED",
-        percentToTurnOn: newValue,
-      },
-    });
-  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -244,34 +205,10 @@ function Game() {
         <Typography id='input-slider' gutterBottom>
           % SociallyDistanced
         </Typography>
-        <Grid container spacing={2} alignItems='center'>
-          <Grid item xs={3}>
-            <Slider
-              value={sociallyDistancedPercent}
-              onChangeCommitted={handleSliderChange}
-              aria-labelledby='input-slider'
-              min={0}
-              max={100}
-              marks
-              step={5}
-            />
-          </Grid>
-          <Grid item>
-            <Input
-              value={sociallyDistancedPercent}
-              margin='dense'
-              onChange={handleInputChange}
-              onBlur={handleBlur}
-              inputProps={{
-                step: 10,
-                min: 0,
-                max: 100,
-                type: "number",
-                "aria-labelledby": "input-slider",
-              }}
-            />
-          </Grid>
-        </Grid>
+        <SimulatorSettingsForm
+          dispatch={dispatch}
+          sociallyDistancedPercent={sociallyDistancedPercent}
+        />
         <Modal
           aria-labelledby='transition-modal-title'
           aria-describedby='transition-modal-description'
