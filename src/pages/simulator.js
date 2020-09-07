@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useReducer } from "react";
 import indexStyles from "./index.module.css";
-import GameBoard from "../components/gameBoard";
+import SimulatorBoard from "../components/simulatorBoard";
 import Graph from "../components/graph";
 import { checkInfected } from "../utils/utils";
 import "../styles/global.css";
@@ -183,7 +183,7 @@ function Game() {
             <span style={{ color: `#57c1ff` }}>{curedPeopleCount}</span> recovered
           </div>
         </div>
-        <GameBoard
+        <SimulatorBoard
           {...gameMetrics}
           dispatch={dispatch}
           people={people}
@@ -195,7 +195,7 @@ function Game() {
             historicalInfectedCount={historicalInfectedCount}
             totalPeopleCount={totalPeopleCount}
           />
-        </GameBoard>
+        </SimulatorBoard>
         <Modal
           aria-labelledby='transition-modal-title'
           aria-describedby='transition-modal-description'
