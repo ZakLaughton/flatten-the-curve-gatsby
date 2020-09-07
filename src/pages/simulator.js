@@ -8,7 +8,7 @@ import ReactGA from "react-ga";
 import { Backdrop, Button, Fade, Modal, IconButton } from "@material-ui/core";
 import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
-import { Help } from "@material-ui/icons";
+import { Help, Pause, PlayArrow, Replay } from "@material-ui/icons";
 import { useLocation } from "@reach/router";
 import reducer, { initialState } from "../state/simulatorReducer";
 
@@ -48,15 +48,30 @@ function initializeReactGA() {
 }
 function Game() {
   const { pathname } = useLocation();
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const classes = useStyles();
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleStart = () => {
-    setInterval(() => {
+  useEffect(() => {
+    const playingInterval = setInterval(() => {
+      if (!isPlaying) {
+        clearInterval(playingInterval);
+        return;
+      }
       dispatch({ type: "INCREMENT_DAY" });
     }, 800);
+    return () => {
+      clearInterval(playingInterval);
+    };
+  }, [isPlaying]);
+
+  const handlePlay = () => {
+    setIsPlaying(true);
+  };
+  const handlePause = () => {
+    setIsPlaying(false);
   };
 
   const handleModalOpen = () => {
@@ -108,15 +123,42 @@ function Game() {
         </h2>
         <div className={indexStyles.mainStats}>
           <div>Top of the curve: {Math.floor(topOfTheCurve)}%</div>
-          <Button
+          {isPlaying ? (
+            <IconButton
+              type='button'
+              color='primary'
+              style={{ backgroundColor: `white` }}
+              size='small'
+              edge={false}
+              onClick={handlePause}
+            >
+              <Pause />
+            </IconButton>
+          ) : (
+            <IconButton
+              type='button'
+              color='primary'
+              style={{ backgroundColor: `white` }}
+              size='small'
+              edge={false}
+              onClick={handlePlay}
+            >
+              <PlayArrow />
+            </IconButton>
+          )}
+
+          <IconButton
+            type='button'
             color='primary'
-            variant='contained'
+            style={{ backgroundColor: `white` }}
+            size='small'
+            edge={false}
             onClick={() => {
               dispatch({ type: "RESTART" });
             }}
           >
-            Reset
-          </Button>
+            <Replay />
+          </IconButton>
           <IconButton
             type='button'
             variant='outlined'
@@ -152,7 +194,6 @@ function Game() {
             totalPeopleCount={totalPeopleCount}
           />
         </GameBoard>
-        <button onClick={handleStart}>Start</button>
         <Modal
           aria-labelledby='transition-modal-title'
           aria-describedby='transition-modal-description'
