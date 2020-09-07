@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useReducer } from "react";
-import indexStyles from "./index.module.scss";
+import indexStyles from "./index.module.css";
 import GameBoard from "../components/gameBoard";
 import Graph from "../components/graph";
 import { getInfectedPeopleCount } from "../utils/utils";
