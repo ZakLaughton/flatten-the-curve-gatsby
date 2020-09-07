@@ -51,7 +51,7 @@ export default function reducer(state, { type, payload }) {
             person.infectedDay >= 0 && !person.isCured && person.mobility !== "QUARANTINED"
         );
         let infectionZones = contagiousPeople.map((person) => {
-          const neighborLocations = getSurroundingCells(person.location)
+          const neighborLocations = getSurroundingCells(person.location, state.gridSize)
             .filter((location) => ["N", "E", "S", "W"].includes(location.direction))
             .map((surroundingCell) => surroundingCell.coordinates);
 
@@ -74,7 +74,7 @@ export default function reducer(state, { type, payload }) {
 
         return newlyInfectedPeople;
       }
-      let movedInfectedPeople = infect(movedPeople);
+      let movedInfectedPeople = infect();
       const newInfectedPeopleCount = getInfectedPeopleCount(movedInfectedPeople);
       const infectedPercentage = (newInfectedPeopleCount / state.people.length) * 100;
 
