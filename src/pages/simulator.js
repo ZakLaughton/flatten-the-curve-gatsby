@@ -9,10 +9,7 @@ import { Backdrop, Button, Fade, Modal, IconButton } from "@material-ui/core";
 import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import { Help } from "@material-ui/icons";
-import { Helmet } from "react-helmet";
 import { useLocation } from "@reach/router";
-import { useStaticQuery, graphql } from "gatsby";
-import flattenIcon from "../images/flatten-icon.png";
 import reducer, { initialState } from "../state/gameReducer";
 
 const theme = createMuiTheme({
@@ -51,15 +48,6 @@ function initializeReactGA() {
 }
 function Game() {
   const { pathname } = useLocation();
-  const { site } = useStaticQuery(query);
-  const { defaultDescription, siteUrl, defaultImage, twitterUsername } = site.siteMetadata;
-
-  const seo = {
-    title: "FLATTEN THE CURVE - THE GAME",
-    description: defaultDescription,
-    image: `${siteUrl}${flattenIcon}`,
-    url: `${siteUrl}${pathname}`,
-  };
 
   const classes = useStyles();
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -99,18 +87,6 @@ function Game() {
   return (
     <ThemeProvider theme={theme}>
       <main className={indexStyles.gameGrid}>
-        <Helmet title={seo.title}>
-          {seo.url && <meta property='og:url' content={seo.url} />}
-          <meta property='og:type' content='website' />
-          {seo.title && <meta property='og:title' content={seo.title} />}
-          {seo.description && <meta property='og:description' content={seo.description} />}
-          {seo.image && <meta property='og:image' content={seo.image} />}
-          <meta name='twitter:card' content='summary_large_image' />
-          {twitterUsername && <meta name='twitter:creator' content={twitterUsername} />}
-          {seo.title && <meta name='twitter:title' content={seo.title} />}
-          {seo.description && <meta name='twitter:description' content={seo.description} />}
-          {seo.image && <meta name='twitter:image' content={seo.image} />}
-        </Helmet>
         <h1
           style={{
             fontSize: `2rem`,
@@ -205,18 +181,5 @@ function Game() {
     </ThemeProvider>
   );
 }
-
-const query = graphql`
-  query SEO {
-    site {
-      siteMetadata {
-        defaultDescription: description
-        siteUrl: url
-        defaultImage: image
-        twitterUsername
-      }
-    }
-  }
-`;
 
 export default Game;
