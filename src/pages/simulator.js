@@ -54,9 +54,23 @@ function Game() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const {
+    day,
+    people,
+    historicalInfectedCount,
+    gridSize,
+    boardSize,
+    peopleDensity,
+    topOfTheCurve,
+  } = state;
+
+  const gameMetrics = { gridSize, boardSize, peopleDensity };
+
+  const infectedPeopleCount = people.filter(checkInfected).length;
+
   useEffect(() => {
     const playingInterval = setInterval(() => {
-      if (!isPlaying) {
+      if (!isPlaying || infectedPeopleCount === 0) {
         clearInterval(playingInterval);
         return;
       }
@@ -65,7 +79,7 @@ function Game() {
     return () => {
       clearInterval(playingInterval);
     };
-  }, [isPlaying]);
+  }, [isPlaying, infectedPeopleCount]);
 
   const handlePlay = () => {
     setIsPlaying(true);
@@ -86,19 +100,6 @@ function Game() {
     dispatch({ type: "RESTART" });
   }, [dispatch]);
 
-  const {
-    day,
-    people,
-    historicalInfectedCount,
-    gridSize,
-    boardSize,
-    peopleDensity,
-    topOfTheCurve,
-  } = state;
-
-  const gameMetrics = { gridSize, boardSize, peopleDensity };
-
-  const infectedPeopleCount = people.filter(checkInfected).length;
   const symptomaticCount = people.filter(
     ({ isCured, infectedDay }) => !isCured && infectedDay >= 0 && day - infectedDay >= 5
   ).length;
@@ -154,6 +155,7 @@ function Game() {
             size='small'
             edge={false}
             onClick={() => {
+              setIsPlaying(false);
               dispatch({ type: "RESTART" });
             }}
           >
