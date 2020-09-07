@@ -13,7 +13,12 @@ export class PeopleList {
   move() {
     this._peopleList = this._peopleList.reduce(
       (newPeople, person, index) => {
-        if (["SOCIALLY_DISTANCED", "QUARANTINED"].includes(person.mobility)) return newPeople;
+        if (person.mobility === "QUARANTINED") return newPeople;
+        if (person.mobility === "SOCIALLY_DISTANCED") {
+          if (Math.random() < 0.5) {
+            return newPeople;
+          }
+        }
         const newLocation = calculateMove(person.location, this._gridSize);
 
         if (
@@ -63,7 +68,8 @@ export class PeopleList {
       .map((person) => {
         const neighborLocations = getSurroundingCells(person.location, this._gridSize)
           .filter((location) => ["N", "E", "S", "W"].includes(location.direction))
-          .map((surroundingCell) => surroundingCell.coordinates);
+          .map((surroundingCell) => surroundingCell.coordinates)
+          .filter((coordinate) => (person.isMasked ? Math.random() < 0.05 : true));
 
         return neighborLocations;
       })
@@ -76,7 +82,7 @@ export class PeopleList {
             person.location.x === infectionZone.x && person.location.y === infectionZone.y
         )
       ) {
-        const chanceOfGettingInfected = person.mobility === "SOCIALLY_DISTANCED" ? 0.1 : 0.9;
+        const chanceOfGettingInfected = person.mobility === "SOCIALLY_DISTANCED" ? 0.5 : 0.95;
         if (Math.random() <= chanceOfGettingInfected) person.infectedDay = day;
       }
       return person;
