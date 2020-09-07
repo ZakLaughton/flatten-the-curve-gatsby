@@ -180,19 +180,26 @@ function Game() {
             <span style={{ color: `#57c1ff` }}>{curedPeopleCount}</span> recovered
           </div>
         </div>
-        <SimulatorBoard
-          {...gameMetrics}
-          dispatch={dispatch}
-          people={people}
-          day={day}
-          gridSize={gridSize}
-          boardSize={boardSize}
-        >
+        <SimulatorBoard {...gameMetrics} people={people} day={day} gridSize={gridSize}>
           <Graph
             historicalInfectedCount={historicalInfectedCount}
             totalPeopleCount={totalPeopleCount}
           />
         </SimulatorBoard>
+        <button
+          onClick={() => {
+            dispatch({
+              type: "UPDATE_PERSON_BEHAVIOR",
+              payload: {
+                propertyName: "mobility",
+                propertyValue: "SOCIALLY_DISTANCED",
+                percentToTurnOn: 0,
+              },
+            });
+          }}
+        >
+          Clear SD
+        </button>
         <Modal
           aria-labelledby='transition-modal-title'
           aria-describedby='transition-modal-description'

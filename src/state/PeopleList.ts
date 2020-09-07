@@ -1,4 +1,6 @@
-import { Person, Location } from "../typings/gameTypes";
+import { Person, Location, ChangeableTypes } from "../typings/gameTypes";
+import shuffle from "lodash.shuffle";
+
 export class PeopleList {
   _peopleList: Person[];
   _gridSize: number;
@@ -80,6 +82,47 @@ export class PeopleList {
       return person;
     });
 
+    return this;
+  }
+
+  clearPropertyFromAllPeople(propertyName: ChangeableTypes) {
+    console.log(`CLEARING ${propertyName}`);
+    this._peopleList = this._peopleList.map((person) => ({ ...person, [propertyName]: false }));
+
+    return this;
+  }
+
+  resetMobilityOnSociallyDistancedPeople() {
+    this._peopleList = this._peopleList.map((person) =>
+      person.mobility === "SOCIALLY_DISTANCED" ? { ...person, mobility: "FREE" } : person
+    );
+    return this;
+  }
+
+  setPropertyForPercentageOfPeople({
+    propertyName,
+    propertyValue,
+    percentage,
+  }: {
+    propertyName: ChangeableTypes;
+    propertyValue: string | number | boolean;
+    percentage: number;
+  }) {
+    const peopleIds = this._peopleList.map((person) => person.id);
+    const numberOfPeopleToTurnOn = Math.floor((peopleIds.length * percentage) / 100);
+    const idsToTurnOn: number[] = shuffle(peopleIds).slice(0, numberOfPeopleToTurnOn);
+    console.log("idsToTurnOn: ", idsToTurnOn);
+
+    this._peopleList = this._peopleList.map((person) => {
+      if (idsToTurnOn.includes(person.id)) {
+        console.log(`UPDATING ID ${person.id}`);
+        return {
+          ...person,
+          [propertyName]: propertyValue,
+        };
+      }
+      return person;
+    });
     return this;
   }
 

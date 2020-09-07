@@ -6,8 +6,6 @@ import styled from "styled-components";
 function Person({ personData, gridSize, day }) {
   const { infectedDay, isCured, location } = personData;
   const isInfected = !isCured && infectedDay >= 0;
-  console.log("infectedDay: ", infectedDay);
-  console.log("isInfected: ", isInfected);
   const isSymptomatic = !isCured && infectedDay >= 0 && day - infectedDay >= 5;
 
   const cellSizeInPercent = 98 / gridSize;
