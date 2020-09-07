@@ -1,5 +1,6 @@
 import { checkInfected, shuffleArray } from "../utils/utils";
 import { PeopleList } from "./PeopleList";
+import { Mobility } from "../typings/gameTypes";
 
 export const initialState = {
   day: 0,
@@ -26,7 +27,7 @@ export interface Person {
   location: Location;
   infectedDay: number;
   isCured: boolean;
-  mobility: "FREE" | "QUARANTINED" | "SOCIALLY_DISTANCED";
+  mobility: Mobility;
 }
 
 interface DailyStat {
