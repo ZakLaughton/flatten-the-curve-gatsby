@@ -10,7 +10,7 @@ import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import { Help } from "@material-ui/icons";
 import { useLocation } from "@reach/router";
-import reducer, { initialState } from "../state/gameReducer";
+import reducer, { initialState } from "../state/simulatorReducer";
 
 const theme = createMuiTheme({
   palette: {
