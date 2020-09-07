@@ -1,19 +1,15 @@
 import React, { useEffect, useState, useReducer } from "react";
 import indexStyles from "./index.module.css";
-import GameBoard from "../components/gameBoard";
+import SimulatorBoard from "../components/simulatorBoard";
 import Graph from "../components/graph";
 import { checkInfected } from "../utils/utils";
 import "../styles/global.css";
 import ReactGA from "react-ga";
-import { Backdrop, Button, Fade, Modal, IconButton } from "@material-ui/core";
+import { Backdrop, Fade, Modal, IconButton } from "@material-ui/core";
 import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
-import { Help } from "@material-ui/icons";
-import { Helmet } from "react-helmet";
-import { useLocation } from "@reach/router";
-import { useStaticQuery, graphql } from "gatsby";
-import flattenIcon from "../images/flatten-icon.png";
-import reducer, { initialState } from "../state/gameReducer";
+import { Help, Pause, PlayArrow, Replay } from "@material-ui/icons";
+import reducer, { initialState } from "../state/simulatorReducer";
 
 const theme = createMuiTheme({
   palette: {
@@ -50,32 +46,11 @@ function initializeReactGA() {
   }
 }
 function Game() {
-  const { pathname } = useLocation();
-  const { site } = useStaticQuery(query);
-  const { defaultDescription, siteUrl, defaultImage, twitterUsername } = site.siteMetadata;
-
-  const seo = {
-    title: "FLATTEN THE CURVE - THE GAME",
-    description: defaultDescription,
-    image: `${siteUrl}${flattenIcon}`,
-    url: `${siteUrl}${pathname}`,
-  };
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const classes = useStyles();
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [isModalOpen, setIsModalOpen] = useState(true);
-
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-  };
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
-
-  useEffect(() => {
-    initializeReactGA();
-    dispatch({ type: "RESTART" });
-  }, [dispatch]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {
     day,
@@ -90,6 +65,39 @@ function Game() {
   const gameMetrics = { gridSize, boardSize, peopleDensity };
 
   const infectedPeopleCount = people.filter(checkInfected).length;
+
+  useEffect(() => {
+    const playingInterval = setInterval(() => {
+      if (!isPlaying || infectedPeopleCount === 0) {
+        clearInterval(playingInterval);
+        return;
+      }
+      dispatch({ type: "INCREMENT_DAY" });
+    }, 800);
+    return () => {
+      clearInterval(playingInterval);
+    };
+  }, [isPlaying, infectedPeopleCount]);
+
+  const handlePlay = () => {
+    setIsPlaying(true);
+  };
+  const handlePause = () => {
+    setIsPlaying(false);
+  };
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    initializeReactGA();
+    dispatch({ type: "RESTART" });
+  }, [dispatch]);
+
   const symptomaticCount = people.filter(
     ({ isCured, infectedDay }) => !isCured && infectedDay >= 0 && day - infectedDay >= 5
   ).length;
@@ -99,18 +107,6 @@ function Game() {
   return (
     <ThemeProvider theme={theme}>
       <main className={indexStyles.gameGrid}>
-        <Helmet title={seo.title}>
-          {seo.url && <meta property='og:url' content={seo.url} />}
-          <meta property='og:type' content='website' />
-          {seo.title && <meta property='og:title' content={seo.title} />}
-          {seo.description && <meta property='og:description' content={seo.description} />}
-          {seo.image && <meta property='og:image' content={seo.image} />}
-          <meta name='twitter:card' content='summary_large_image' />
-          {twitterUsername && <meta name='twitter:creator' content={twitterUsername} />}
-          {seo.title && <meta name='twitter:title' content={seo.title} />}
-          {seo.description && <meta name='twitter:description' content={seo.description} />}
-          {seo.image && <meta name='twitter:image' content={seo.image} />}
-        </Helmet>
         <h1
           style={{
             fontSize: `2rem`,
@@ -126,18 +122,45 @@ function Game() {
         </h2>
         <div className={indexStyles.mainStats}>
           <div>Top of the curve: {Math.floor(topOfTheCurve)}%</div>
-          <Button
+          {isPlaying ? (
+            <IconButton
+              type='button'
+              color='primary'
+              style={{ backgroundColor: `white` }}
+              size='small'
+              edge={false}
+              onClick={handlePause}
+            >
+              <Pause />
+            </IconButton>
+          ) : (
+            <IconButton
+              type='button'
+              color='primary'
+              style={{ backgroundColor: `white` }}
+              size='small'
+              edge={false}
+              onClick={handlePlay}
+            >
+              <PlayArrow />
+            </IconButton>
+          )}
+
+          <IconButton
+            type='button'
             color='primary'
-            variant='contained'
+            style={{ backgroundColor: `white` }}
+            size='small'
+            edge={false}
             onClick={() => {
+              setIsPlaying(false);
               dispatch({ type: "RESTART" });
             }}
           >
-            Reset
-          </Button>
+            <Replay />
+          </IconButton>
           <IconButton
             type='button'
-            variant='outlined'
             onClick={handleModalOpen}
             color='secondary'
             style={{ backgroundColor: `white` }}
@@ -157,7 +180,7 @@ function Game() {
             <span style={{ color: `#57c1ff` }}>{curedPeopleCount}</span> recovered
           </div>
         </div>
-        <GameBoard
+        <SimulatorBoard
           {...gameMetrics}
           dispatch={dispatch}
           people={people}
@@ -169,7 +192,7 @@ function Game() {
             historicalInfectedCount={historicalInfectedCount}
             totalPeopleCount={totalPeopleCount}
           />
-        </GameBoard>
+        </SimulatorBoard>
         <Modal
           aria-labelledby='transition-modal-title'
           aria-describedby='transition-modal-description'
@@ -205,18 +228,5 @@ function Game() {
     </ThemeProvider>
   );
 }
-
-const query = graphql`
-  query SEO {
-    site {
-      siteMetadata {
-        defaultDescription: description
-        siteUrl: url
-        defaultImage: image
-        twitterUsername
-      }
-    }
-  }
-`;
 
 export default Game;

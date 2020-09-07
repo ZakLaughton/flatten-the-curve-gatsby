@@ -1,10 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
-import personStyles from "./person.module.scss";
+import personStyles from "./person.module.css";
 import styled from "styled-components";
 
 function Person({ personData, gridSize, day, dispatch }) {
-  const { id, infectedDay, isCured, location } = personData;
+  const { id, infectedDay, isCured, location, isClickable } = personData;
   const isSymptomatic = !isCured && infectedDay >= 0 && day - infectedDay >= 5;
   const handleClick = () => {
     const newMobility = isSymptomatic ? "QUARANTINED" : "SOCIALLY_DISTANCED";
@@ -25,7 +25,7 @@ function Person({ personData, gridSize, day, dispatch }) {
         isSymptomatic={isSymptomatic}
         location={location}
         positionTransition={{ duration: 0.4 }}
-        onClick={handleClick}
+        onClick={isClickable ? handleClick : undefined}
         infectedDay={infectedDay}
       >
         {personData.mobility === "SOCIALLY_DISTANCED" && (
