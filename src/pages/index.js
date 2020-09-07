@@ -2,7 +2,7 @@ import React, { useEffect, useState, useReducer } from "react";
 import indexStyles from "./index.module.css";
 import GameBoard from "../components/gameBoard";
 import Graph from "../components/graph";
-import { getInfectedPeopleCount } from "../utils/utils";
+import { checkInfected } from "../utils/utils";
 import "../styles/global.css";
 import ReactGA from "react-ga";
 import { Backdrop, Button, Fade, Modal, IconButton } from "@material-ui/core";
@@ -89,7 +89,7 @@ function Game() {
 
   const gameMetrics = { gridSize, boardSize, peopleDensity };
 
-  const infectedPeopleCount = getInfectedPeopleCount(people);
+  const infectedPeopleCount = people.filter(checkInfected).length;
   const symptomaticCount = people.filter(
     ({ isCured, infectedDay }) => !isCured && infectedDay >= 0 && day - infectedDay >= 5
   ).length;
