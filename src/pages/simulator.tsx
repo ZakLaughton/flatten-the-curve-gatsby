@@ -163,16 +163,6 @@ function Game() {
           >
             <Replay />
           </IconButton>
-          <IconButton
-            type='button'
-            onClick={handleModalOpen}
-            color='secondary'
-            style={{ backgroundColor: `white` }}
-            size='small'
-            edge={false}
-          >
-            <Help />
-          </IconButton>
         </div>
         <div className={indexStyles.stats}>
           <div>

@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {
-  Grid,
-  Input,
-  Slider,
-  Typography,
-  Card,
-  CardContent,
-  FormControl,
-  FormHelperText,
-} from "@material-ui/core";
-import simulatorSettingsFormStyles from "./simulatorSettingsForm.module.css";
+import { Grid, Input, Slider, Card, CardContent } from "@material-ui/core";
+import simulatorSettingsFormStyles from "./simulatorSettingsForm.module.scss";
 
 const SimulatorSettingsForm = ({ dispatch, sociallyDistancedPercent }) => {
   const [displayValue, setDisplayValue] = useState(sociallyDistancedPercent);
@@ -66,9 +57,7 @@ const SimulatorSettingsForm = ({ dispatch, sociallyDistancedPercent }) => {
   return (
     <Card className={simulatorSettingsFormStyles.card}>
       <CardContent>
-        <Typography id='input-slider' gutterBottom>
-          % Socially Distanced
-        </Typography>
+        <h3>% Socially Distanced</h3>
         <Grid container spacing={2} alignItems='center'>
           <Grid item xs={4}>
             <Slider
