@@ -5,7 +5,19 @@ import Graph from "../components/graph";
 import { checkInfected } from "../utils/utils";
 import "../styles/global.css";
 import ReactGA from "react-ga";
-import { Backdrop, Fade, Modal, IconButton } from "@material-ui/core";
+import {
+  Backdrop,
+  Fade,
+  FormControl,
+  Grid,
+  Modal,
+  IconButton,
+  InputLabel,
+  Input,
+  TextField,
+  Typography,
+  Slider,
+} from "@material-ui/core";
 import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import { Help, Pause, PlayArrow, Replay } from "@material-ui/icons";
@@ -60,6 +72,8 @@ function Game() {
     boardSize,
     peopleDensity,
     topOfTheCurve,
+    sociallyDistancedPercent,
+    maskedPercent,
   } = state;
 
   const gameMetrics = { gridSize, boardSize, peopleDensity };
@@ -103,6 +117,47 @@ function Game() {
   ).length;
   const totalPeopleCount = people.length;
   const curedPeopleCount = people.filter((person) => person.isCured).length;
+
+  const handleSliderChange = (event: any, newValue: number) => {
+    dispatch({
+      type: "UPDATE_PERSON_BEHAVIOR",
+      payload: {
+        propertyName: "mobility",
+        propertyValue: "SOCIALLY_DISTANCED",
+        percentToTurnOn: newValue,
+      },
+    });
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value === "" ? 0 : Number(event.target.value);
+    dispatch({
+      type: "UPDATE_PERSON_BEHAVIOR",
+      payload: {
+        propertyName: "mobility",
+        propertyValue: "SOCIALLY_DISTANCED",
+        percentToTurnOn: newValue,
+      },
+    });
+  };
+
+  const handleBlur = () => {
+    let newValue;
+    if (sociallyDistancedPercent < 0) {
+      newValue = 0;
+    } else if (sociallyDistancedPercent > 100) {
+      newValue = 100;
+    }
+
+    dispatch({
+      type: "UPDATE_PERSON_BEHAVIOR",
+      payload: {
+        propertyName: "mobility",
+        propertyValue: "SOCIALLY_DISTANCED",
+        percentToTurnOn: newValue,
+      },
+    });
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -186,20 +241,37 @@ function Game() {
             totalPeopleCount={totalPeopleCount}
           />
         </SimulatorBoard>
-        <button
-          onClick={() => {
-            dispatch({
-              type: "UPDATE_PERSON_BEHAVIOR",
-              payload: {
-                propertyName: "mobility",
-                propertyValue: "SOCIALLY_DISTANCED",
-                percentToTurnOn: 0,
-              },
-            });
-          }}
-        >
-          Clear SD
-        </button>
+        <Typography id='input-slider' gutterBottom>
+          % SociallyDistanced
+        </Typography>
+        <Grid container spacing={2} alignItems='center'>
+          <Grid item xs={3}>
+            <Slider
+              value={sociallyDistancedPercent}
+              onChangeCommitted={handleSliderChange}
+              aria-labelledby='input-slider'
+              min={0}
+              max={100}
+              marks
+              step={5}
+            />
+          </Grid>
+          <Grid item>
+            <Input
+              value={sociallyDistancedPercent}
+              margin='dense'
+              onChange={handleInputChange}
+              onBlur={handleBlur}
+              inputProps={{
+                step: 10,
+                min: 0,
+                max: 100,
+                type: "number",
+                "aria-labelledby": "input-slider",
+              }}
+            />
+          </Grid>
+        </Grid>
         <Modal
           aria-labelledby='transition-modal-title'
           aria-describedby='transition-modal-description'

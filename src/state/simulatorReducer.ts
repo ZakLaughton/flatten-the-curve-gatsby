@@ -59,7 +59,11 @@ export default function reducer(state: State, action: Action) {
         percentage: percentToTurnOn,
       }).peopleList;
 
-      return { ...state, people: newPeopleList.peopleList };
+      return {
+        ...state,
+        people: newPeopleList.peopleList,
+        sociallyDistancedPercent: percentToTurnOn,
+      };
     }
     case "RESTART":
       return init(initialState);
