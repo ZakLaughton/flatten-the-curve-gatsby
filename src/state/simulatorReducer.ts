@@ -10,8 +10,8 @@ export const initialState: State = {
   boardSize: 500,
   peopleDensity: 0.4,
   topOfTheCurve: 0,
-  maskedPercent: 0,
-  sociallyDistancedPercent: 50,
+  maskedPercent: 10,
+  sociallyDistancedPercent: 10,
 };
 
 interface UpdatePersonBehaviorPayload {
@@ -116,10 +116,16 @@ export function init(initialState: State) {
   const peopleInTheMiddle = initialPeople.filter(coordinatesAreInTheMiddleArea);
   const indexToInfect = peopleInTheMiddle[Math.floor(Math.random() * peopleInTheMiddle.length)].id;
   initialPeople[indexToInfect].infectedDay = 0;
-  const finalList = new PeopleList([...initialPeople], gridSize).setPropertyForPercentageOfPeople({
-    propertyName: "mobility",
-    propertyValue: "SOCIALLY_DISTANCED",
-    percentage: 50,
-  }).peopleList;
+  const finalList = new PeopleList([...initialPeople], gridSize)
+    .setPropertyForPercentageOfPeople({
+      propertyName: "mobility",
+      propertyValue: "SOCIALLY_DISTANCED",
+      percentage: initialState.sociallyDistancedPercent,
+    })
+    .setPropertyForPercentageOfPeople({
+      propertyName: "isMasked",
+      propertyValue: true,
+      percentage: initialState.maskedPercent,
+    }).peopleList;
   return { ...initialState, people: finalList };
 }

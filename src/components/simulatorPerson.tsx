@@ -2,9 +2,18 @@ import React from "react";
 import { motion } from "framer-motion";
 import personStyles from "./person.module.css";
 import styled from "styled-components";
-import { useStaticQuery } from "gatsby";
+import { useStaticQuery, graphql } from "gatsby";
+import { Person as IPerson } from "../typings/gameTypes";
 
-function Person({ personData, gridSize, day }) {
+function Person({
+  personData,
+  gridSize,
+  day,
+}: {
+  personData: IPerson;
+  gridSize: number;
+  day: number;
+}) {
   const data = useStaticQuery(graphql`
     {
       file(name: { eq: "mask" }) {
@@ -32,7 +41,7 @@ function Person({ personData, gridSize, day }) {
         <div className={personStyles.sociallyDistancedSquare} />
       )}
       {personData.mobility === "QUARANTINED" && <div className={personStyles.quarantinedSquare} />}
-      <img src={data.file.publicURL} alt='mask' />
+      {personData.isMasked && <img src={data.file.publicURL} alt='mask' />}
       <div className={personStyles.personShadow} />
     </StyledPerson>
   );
