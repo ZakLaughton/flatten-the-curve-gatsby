@@ -48,7 +48,7 @@ class PeopleList {
   }
 
   move() {
-    this._peopleList = [...this._peopleList].reduce(
+    this._peopleList = this._peopleList.reduce(
       (newPeople, person, index) => {
         if (["SOCIALLY_DISTANCED", "QUARANTINED"].includes(person.mobility)) return newPeople;
         const newLocation = calculateMove(person.location, this._gridSize);
