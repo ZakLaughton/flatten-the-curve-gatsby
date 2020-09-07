@@ -5,11 +5,10 @@ import Graph from "../components/graph";
 import { checkInfected } from "../utils/utils";
 import "../styles/global.css";
 import ReactGA from "react-ga";
-import { Backdrop, Button, Fade, Modal, IconButton } from "@material-ui/core";
+import { Backdrop, Fade, Modal, IconButton } from "@material-ui/core";
 import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import { Help, Pause, PlayArrow, Replay } from "@material-ui/icons";
-import { useLocation } from "@reach/router";
 import reducer, { initialState } from "../state/simulatorReducer";
 
 const theme = createMuiTheme({
@@ -47,7 +46,6 @@ function initializeReactGA() {
   }
 }
 function Game() {
-  const { pathname } = useLocation();
   const [isPlaying, setIsPlaying] = useState(false);
 
   const classes = useStyles();
@@ -163,7 +161,6 @@ function Game() {
           </IconButton>
           <IconButton
             type='button'
-            variant='outlined'
             onClick={handleModalOpen}
             color='secondary'
             style={{ backgroundColor: `white` }}

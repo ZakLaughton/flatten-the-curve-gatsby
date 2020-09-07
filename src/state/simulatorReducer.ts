@@ -1,6 +1,7 @@
 import { checkInfected, shuffleArray } from "../utils/utils";
-import { Location, State } from "../typings/gameTypes";
+import { Location, Mobility, State } from "../typings/gameTypes";
 import { PeopleList } from "./PeopleList";
+import { ReducerAction } from "react";
 
 export const initialState = {
   day: 0,
@@ -12,8 +13,18 @@ export const initialState = {
   topOfTheCurve: 0,
 };
 
-export default function reducer(state: State, { type, payload }) {
-  switch (type) {
+interface UpdatePersonMobilityPayload {
+  id?: number;
+  mobility?: Mobility;
+}
+
+type Action =
+  | { type: "INCREMENT_DAY" }
+  | { type: "UPDATE_PERSON_MOBILITY"; payload: UpdatePersonMobilityPayload }
+  | { type: "RESTART" };
+
+export default function reducer(state: State, action: Action) {
+  switch (action.type) {
     case "INCREMENT_DAY":
       const newDayNumber = state.day + 1;
 
@@ -36,6 +47,7 @@ export default function reducer(state: State, { type, payload }) {
       };
 
     case "UPDATE_PERSON_MOBILITY":
+      const { payload } = action;
       const newPeople = [...state.people];
       const personIndex = newPeople.findIndex((person) => person.id === payload.id);
       newPeople[personIndex].mobility = payload.mobility;
