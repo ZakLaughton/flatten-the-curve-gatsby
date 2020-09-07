@@ -10,7 +10,35 @@ export const initialState = {
   topOfTheCurve: 0,
 };
 
-export default function reducer(state, { type, payload }) {
+interface State {
+  day: number;
+  people: Person[];
+  historicalInfectedCount: DailyStat[];
+  gridSize: number;
+  boardSize: number;
+  peopleDensity: number;
+  topOfTheCurve: number;
+}
+
+interface Person {
+  id: number;
+  location: Location;
+  infectedDay: number;
+  isCured: boolean;
+  mobility: "FREE" | "QUARANTINED" | "SOCIALLY_DISTANCED";
+}
+
+interface DailyStat {
+  day: number;
+  count: number;
+}
+
+interface Location {
+  x: number;
+  y: number;
+}
+
+export default function reducer(state: State, { type, payload }) {
   switch (type) {
     case "INCREMENT_DAY":
       const newDayNumber = state.day + 1;
@@ -32,8 +60,7 @@ export default function reducer(state, { type, payload }) {
         return newPeople;
       }, state.people);
 
-      // Infect
-      function infect() {
+      const infect = () => {
         let peopleCopy = [...state.people];
         const peopleToRecover = peopleCopy
           .filter(
@@ -50,18 +77,18 @@ export default function reducer(state, { type, payload }) {
           (person) =>
             person.infectedDay >= 0 && !person.isCured && person.mobility !== "QUARANTINED"
         );
-        let infectionZones = contagiousPeople.map((person) => {
+        const infectionZones = contagiousPeople.map((person) => {
           const neighborLocations = getSurroundingCells(person.location, state.gridSize)
             .filter((location) => ["N", "E", "S", "W"].includes(location.direction))
             .map((surroundingCell) => surroundingCell.coordinates);
 
           return neighborLocations;
         });
-        infectionZones = infectionZones.flat();
+        const flatInfectionZones = infectionZones.flat();
         const newlyInfectedPeople = state.people.map((person) => {
           if (
             person.infectedDay === -1 &&
-            infectionZones.some(
+            flatInfectionZones.some(
               (infectionZone) =>
                 person.location.x === infectionZone.x && person.location.y === infectionZone.y
             )
@@ -73,7 +100,7 @@ export default function reducer(state, { type, payload }) {
         });
 
         return newlyInfectedPeople;
-      }
+      };
       let movedInfectedPeople = infect();
       const newInfectedPeopleCount = getInfectedPeopleCount(movedInfectedPeople);
       const infectedPercentage = (newInfectedPeopleCount / state.people.length) * 100;
@@ -195,16 +222,16 @@ function getSurroundingCells(location, gridSize) {
 
   return surroundingCells;
 
-  function isOnLeftEdge(location) {
+  function isOnLeftEdge(location: Location) {
     return location.x === 0;
   }
-  function isOnBottomEdge(location) {
+  function isOnBottomEdge(location: Location) {
     return location.y === 0;
   }
-  function isOnRightEdge(location) {
+  function isOnRightEdge(location: Location) {
     return location.x === gridSize - 1;
   }
-  function isOnTopEdge(location) {
+  function isOnTopEdge(location: Location) {
     return location.y === gridSize - 1;
   }
 }
