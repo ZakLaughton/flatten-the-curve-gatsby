@@ -1,8 +1,8 @@
-import React from "react";
+import * as React from "react";
 import Person from "./person";
 import gameBoardStyles from "./gameBoard.module.css";
 
-function GameBoard({ boardSize, gridSize, people, day, dispatch, children }) {
+function SimulatorBoard({ boardSize, gridSize, people, day, dispatch, children }) {
   return (
     <div
       className={gameBoardStyles.gameBoard}
@@ -20,7 +20,7 @@ function GameBoard({ boardSize, gridSize, people, day, dispatch, children }) {
           dispatch={dispatch}
           day={day}
           boardSize={boardSize}
-          isClickable={true}
+          isClickable={false}
         />
       ))}
       {children}
@@ -28,4 +28,4 @@ function GameBoard({ boardSize, gridSize, people, day, dispatch, children }) {
   );
 }
 
-export default GameBoard;
+export default SimulatorBoard;
