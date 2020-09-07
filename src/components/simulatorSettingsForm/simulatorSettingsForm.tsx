@@ -57,36 +57,38 @@ const SimulatorSettingsForm = ({ dispatch, sociallyDistancedPercent }) => {
   return (
     <Card className={simulatorSettingsFormStyles.card}>
       <CardContent>
-        <h3>% Socially Distanced</h3>
-        <Grid container spacing={2} alignItems='center'>
-          <Grid item xs={4}>
-            <Slider
-              value={displayValue}
-              onChange={handleSliderChange}
-              onChangeCommitted={handleSliderCommit}
-              aria-labelledby='input-slider'
-              min={0}
-              max={100}
-              marks
-              step={5}
-            />
+        <>
+          <h3>% Socially Distanced</h3>
+          <Grid container spacing={2} alignItems='center'>
+            <Grid item xs={4}>
+              <Slider
+                value={displayValue}
+                onChange={handleSliderChange}
+                onChangeCommitted={handleSliderCommit}
+                aria-labelledby='input-slider'
+                min={0}
+                max={100}
+                marks
+                step={5}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <Input
+                value={displayValue}
+                margin='none'
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+                inputProps={{
+                  step: 10,
+                  min: 0,
+                  max: 100,
+                  type: "number",
+                  "aria-labelledby": "input-slider",
+                }}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={2}>
-            <Input
-              value={displayValue}
-              margin='none'
-              onChange={handleInputChange}
-              onBlur={handleBlur}
-              inputProps={{
-                step: 10,
-                min: 0,
-                max: 100,
-                type: "number",
-                "aria-labelledby": "input-slider",
-              }}
-            />
-          </Grid>
-        </Grid>
+        </>
       </CardContent>
     </Card>
   );
