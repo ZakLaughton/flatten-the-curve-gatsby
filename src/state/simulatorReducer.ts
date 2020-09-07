@@ -4,9 +4,9 @@ export const initialState = {
   day: 0,
   people: [],
   historicalInfectedCount: [{ day: 0, count: 0 }],
-  gridSize: 40,
+  gridSize: 30,
   boardSize: 500,
-  peopleDensity: 0.3,
+  peopleDensity: 0.4,
   topOfTheCurve: 0,
 };
 

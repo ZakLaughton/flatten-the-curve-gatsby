@@ -53,6 +53,12 @@ function Game() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [isModalOpen, setIsModalOpen] = useState(true);
 
+  const handleStart = () => {
+    setInterval(() => {
+      dispatch({ type: "INCREMENT_DAY" });
+    }, 800);
+  };
+
   const handleModalOpen = () => {
     setIsModalOpen(true);
   };
@@ -146,6 +152,7 @@ function Game() {
             totalPeopleCount={totalPeopleCount}
           />
         </GameBoard>
+        <button onClick={handleStart}>Start</button>
         <Modal
           aria-labelledby='transition-modal-title'
           aria-describedby='transition-modal-description'
