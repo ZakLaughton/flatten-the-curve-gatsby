@@ -38,90 +38,121 @@ interface Location {
   y: number;
 }
 
+class PeopleList {
+  _peopleList: Person[];
+  _gridSize: number;
+
+  constructor(peopleList: Person[], gridSize: number) {
+    this._peopleList = [...peopleList];
+    this._gridSize = gridSize;
+  }
+
+  move() {
+    this._peopleList = [...this._peopleList].reduce(
+      (newPeople, person, index) => {
+        if (["SOCIALLY_DISTANCED", "QUARANTINED"].includes(person.mobility)) return newPeople;
+        const newLocation = calculateMove(person.location, this._gridSize);
+
+        if (
+          newPeople.some(
+            (person) => person.location.x === newLocation.x && person.location.y === newLocation.y
+          )
+        ) {
+          newPeople[index] = person;
+        } else {
+          newPeople[index] = { ...person, location: newLocation };
+        }
+
+        return newPeople;
+
+        function calculateMove(location: Location, gridSize: number) {
+          const possibleMoves = getSurroundingCells(location, gridSize);
+          const newLocation = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+
+          return newLocation.coordinates;
+        }
+      },
+      [...this._peopleList]
+    );
+    return this;
+  }
+
+  recover(day: number) {
+    const peopleToRecover = this._peopleList
+      .filter(
+        (person) => person.infectedDay !== -1 && !person.isCured && day - person.infectedDay > 19
+      )
+      .map((person) => person.id);
+
+    this._peopleList = this._peopleList.map((person) => {
+      if (peopleToRecover.includes(person.id)) person.isCured = true;
+      return person;
+    });
+
+    return this;
+  }
+
+  infect(day: number) {
+    const contagiousPeople = this._peopleList.filter(
+      (person) => person.infectedDay >= 0 && !person.isCured && person.mobility !== "QUARANTINED"
+    );
+    const infectionZones = contagiousPeople
+      .map((person) => {
+        const neighborLocations = getSurroundingCells(person.location, this._gridSize)
+          .filter((location) => ["N", "E", "S", "W"].includes(location.direction))
+          .map((surroundingCell) => surroundingCell.coordinates);
+
+        return neighborLocations;
+      })
+      .flat();
+    this._peopleList = this._peopleList.map((person) => {
+      if (
+        person.infectedDay === -1 &&
+        infectionZones.some(
+          (infectionZone) =>
+            person.location.x === infectionZone.x && person.location.y === infectionZone.y
+        )
+      ) {
+        const chanceOfGettingInfected = person.mobility === "SOCIALLY_DISTANCED" ? 0.1 : 0.9;
+        if (Math.random() <= chanceOfGettingInfected) person.infectedDay = day;
+      }
+      return person;
+    });
+
+    return this;
+  }
+
+  quarantine() {
+    // Experimental: auto-quarantine symptomatic people
+    // movedInfectedPeople = movedInfectedPeople.map(person => {
+    //   const { isCured, infectedDay } = person
+    //   if (!isCured && infectedDay >= 0 && newDayNumber - infectedDay >= 5) {
+    //     person.mobility = "QUARANTINED"
+    //   }
+    //   return person
+    // })
+  }
+
+  get peopleList() {
+    return this._peopleList;
+  }
+}
+
 export default function reducer(state: State, { type, payload }) {
   switch (type) {
     case "INCREMENT_DAY":
       const newDayNumber = state.day + 1;
-      // Move people
 
-      const movedPeople = state.people.reduce(
-        (newPeople, person, index) => {
-          if (["SOCIALLY_DISTANCED", "QUARANTINED"].includes(person.mobility)) return newPeople;
-          const newLocation = calculateMove(person.location, state.gridSize);
+      const peopleList = new PeopleList([...state.people], state.gridSize);
 
-          if (
-            newPeople.some(
-              (person) => person.location.x === newLocation.x && person.location.y === newLocation.y
-            )
-          ) {
-            newPeople[index] = person;
-          } else {
-            newPeople[index] = { ...person, location: newLocation };
-          }
-
-          return newPeople;
-        },
-        [...state.people]
-      );
-
-      const infect = (peopleList: Person[]) => {
-        const peopleToRecover = peopleList
-          .filter(
-            (person) =>
-              person.infectedDay !== -1 && !person.isCured && state.day - person.infectedDay > 19
-          )
-          .map((person) => person.id);
-        const peopleListWithRecovered = peopleList.map((person) => {
-          if (peopleToRecover.includes(person.id)) person.isCured = true;
-          return person;
-        });
-
-        const contagiousPeople = peopleListWithRecovered.filter(
-          (person) =>
-            person.infectedDay >= 0 && !person.isCured && person.mobility !== "QUARANTINED"
-        );
-        const infectionZones = contagiousPeople.map((person) => {
-          const neighborLocations = getSurroundingCells(person.location, state.gridSize)
-            .filter((location) => ["N", "E", "S", "W"].includes(location.direction))
-            .map((surroundingCell) => surroundingCell.coordinates);
-
-          return neighborLocations;
-        });
-        const flatInfectionZones = infectionZones.flat();
-        const newlyInfectedPeople = peopleListWithRecovered.map((person) => {
-          if (
-            person.infectedDay === -1 &&
-            flatInfectionZones.some(
-              (infectionZone) =>
-                person.location.x === infectionZone.x && person.location.y === infectionZone.y
-            )
-          ) {
-            const chanceOfGettingInfected = person.mobility === "SOCIALLY_DISTANCED" ? 0.1 : 0.9;
-            if (Math.random() <= chanceOfGettingInfected) person.infectedDay = state.day;
-          }
-          return person;
-        });
-
-        return newlyInfectedPeople;
-      };
-      const movedInfectedPeople = infect(movedPeople);
-
-      const newInfectedPeopleCount = getInfectedPeopleCount(movedInfectedPeople);
+      peopleList.move().recover(state.day).infect(state.day);
+      const newInfectedPeopleCount = getInfectedPeopleCount(peopleList.peopleList);
       const infectedPercentage = (newInfectedPeopleCount / state.people.length) * 100;
-
-      // Experimental: auto-quarantine symptomatic people
-      // movedInfectedPeople = movedInfectedPeople.map(person => {
-      //   const { isCured, infectedDay } = person
-      //   if (!isCured && infectedDay >= 0 && newDayNumber - infectedDay >= 5) {
-      //     person.mobility = "QUARANTINED"
-      //   }
-      //   return person
-      // })
 
       return {
         ...state,
         day: newDayNumber,
-        people: movedInfectedPeople,
+        people: peopleList.peopleList,
         historicalInfectedCount: [
           ...state.historicalInfectedCount,
           { day: newDayNumber, count: newInfectedPeopleCount },
@@ -187,14 +218,7 @@ export function init(initialState) {
   return { ...initialState, people: initialPeople };
 }
 
-function calculateMove(location: Location, gridSize: number) {
-  const possibleMoves = getSurroundingCells(location, gridSize);
-  const newLocation = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
-
-  return newLocation.coordinates;
-}
-
-function getSurroundingCells(location, gridSize) {
+function getSurroundingCells(location: Location, gridSize: number) {
   const { x, y } = location;
   let surroundingCells = [
     { direction: "N", coordinates: { x: x + 0, y: y + 1 } },
