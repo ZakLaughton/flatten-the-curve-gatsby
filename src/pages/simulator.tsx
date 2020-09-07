@@ -1,24 +1,12 @@
 import React, { useEffect, useState, useReducer } from "react";
 import indexStyles from "./index.module.css";
 import SimulatorBoard from "../components/simulatorBoard";
-import SimulatorSettingsForm from "../components/simulatorSettingsForm";
+import SimulatorSettingsForm from "../components/simulatorSettingsForm/simulatorSettingsForm";
 import Graph from "../components/graph";
 import { checkInfected } from "../utils/utils";
 import "../styles/global.css";
 import ReactGA from "react-ga";
-import {
-  Backdrop,
-  Fade,
-  FormControl,
-  Grid,
-  Modal,
-  IconButton,
-  InputLabel,
-  Input,
-  TextField,
-  Typography,
-  Slider,
-} from "@material-ui/core";
+import { Backdrop, Fade, Modal, IconButton, Typography } from "@material-ui/core";
 import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import { Help, Pause, PlayArrow, Replay } from "@material-ui/icons";
@@ -202,9 +190,6 @@ function Game() {
             totalPeopleCount={totalPeopleCount}
           />
         </SimulatorBoard>
-        <Typography id='input-slider' gutterBottom>
-          % SociallyDistanced
-        </Typography>
         <SimulatorSettingsForm
           dispatch={dispatch}
           sociallyDistancedPercent={sociallyDistancedPercent}
