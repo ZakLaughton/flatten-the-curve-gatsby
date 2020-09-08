@@ -2,12 +2,28 @@ import React from "react";
 import { motion } from "framer-motion";
 import personStyles from "./person.module.css";
 import styled from "styled-components";
+import { useStaticQuery, graphql } from "gatsby";
+import { Person as IPerson } from "../typings/gameTypes";
 
-function Person({ personData, gridSize, day }) {
+function Person({
+  personData,
+  gridSize,
+  day,
+}: {
+  personData: IPerson;
+  gridSize: number;
+  day: number;
+}) {
+  const data = useStaticQuery(graphql`
+    {
+      file(name: { eq: "mask" }) {
+        publicURL
+      }
+    }
+  `);
+
   const { infectedDay, isCured, location } = personData;
   const isInfected = !isCured && infectedDay >= 0;
-  console.log("infectedDay: ", infectedDay);
-  console.log("isInfected: ", isInfected);
   const isSymptomatic = !isCured && infectedDay >= 0 && day - infectedDay >= 5;
 
   const cellSizeInPercent = 98 / gridSize;
@@ -25,6 +41,7 @@ function Person({ personData, gridSize, day }) {
         <div className={personStyles.sociallyDistancedSquare} />
       )}
       {personData.mobility === "QUARANTINED" && <div className={personStyles.quarantinedSquare} />}
+      {personData.isMasked && <img src={data.file.publicURL} alt='mask' />}
       <div className={personStyles.personShadow} />
     </StyledPerson>
   );

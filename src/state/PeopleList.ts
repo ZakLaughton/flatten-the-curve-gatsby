@@ -1,4 +1,6 @@
-import { Person, Location } from "../typings/gameTypes";
+import { Person, Location, ChangeableTypes } from "../typings/gameTypes";
+import shuffle from "lodash.shuffle";
+
 export class PeopleList {
   _peopleList: Person[];
   _gridSize: number;
@@ -11,7 +13,12 @@ export class PeopleList {
   move() {
     this._peopleList = this._peopleList.reduce(
       (newPeople, person, index) => {
-        if (["SOCIALLY_DISTANCED", "QUARANTINED"].includes(person.mobility)) return newPeople;
+        if (person.mobility === "QUARANTINED") return newPeople;
+        if (person.mobility === "SOCIALLY_DISTANCED") {
+          if (Math.random() < 0.5) {
+            return newPeople;
+          }
+        }
         const newLocation = calculateMove(person.location, this._gridSize);
 
         if (
@@ -61,7 +68,8 @@ export class PeopleList {
       .map((person) => {
         const neighborLocations = getSurroundingCells(person.location, this._gridSize)
           .filter((location) => ["N", "E", "S", "W"].includes(location.direction))
-          .map((surroundingCell) => surroundingCell.coordinates);
+          .map((surroundingCell) => surroundingCell.coordinates)
+          .filter((coordinate) => (person.isMasked ? Math.random() < 0.05 : true));
 
         return neighborLocations;
       })
@@ -74,12 +82,50 @@ export class PeopleList {
             person.location.x === infectionZone.x && person.location.y === infectionZone.y
         )
       ) {
-        const chanceOfGettingInfected = person.mobility === "SOCIALLY_DISTANCED" ? 0.1 : 0.9;
+        const chanceOfGettingInfected = person.mobility === "SOCIALLY_DISTANCED" ? 0.5 : 0.95;
         if (Math.random() <= chanceOfGettingInfected) person.infectedDay = day;
       }
       return person;
     });
 
+    return this;
+  }
+
+  clearPropertyFromAllPeople(propertyName: ChangeableTypes) {
+    this._peopleList = this._peopleList.map((person) => ({ ...person, [propertyName]: false }));
+
+    return this;
+  }
+
+  resetMobilityOnSociallyDistancedPeople() {
+    this._peopleList = this._peopleList.map((person) =>
+      person.mobility === "SOCIALLY_DISTANCED" ? { ...person, mobility: "FREE" } : person
+    );
+    return this;
+  }
+
+  setPropertyForPercentageOfPeople({
+    propertyName,
+    propertyValue,
+    percentage,
+  }: {
+    propertyName: ChangeableTypes;
+    propertyValue: string | number | boolean;
+    percentage: number;
+  }) {
+    const peopleIds = this._peopleList.map((person) => person.id);
+    const numberOfPeopleToTurnOn = Math.floor((peopleIds.length * percentage) / 100);
+    const idsToTurnOn: number[] = shuffle(peopleIds).slice(0, numberOfPeopleToTurnOn);
+
+    this._peopleList = this._peopleList.map((person) => {
+      if (idsToTurnOn.includes(person.id)) {
+        return {
+          ...person,
+          [propertyName]: propertyValue,
+        };
+      }
+      return person;
+    });
     return this;
   }
 

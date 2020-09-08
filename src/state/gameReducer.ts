@@ -42,7 +42,7 @@ export interface Location {
 
 export default function reducer(state: State, { type, payload }) {
   switch (type) {
-    case "INCREMENT_DAY":
+    case "INCREMENT_DAY": {
       const newDayNumber = state.day + 1;
 
       const peopleList = new PeopleList([...state.people], state.gridSize);
@@ -62,17 +62,21 @@ export default function reducer(state: State, { type, payload }) {
         topOfTheCurve:
           infectedPercentage > state.topOfTheCurve ? infectedPercentage : state.topOfTheCurve,
       };
+    }
 
-    case "UPDATE_PERSON_MOBILITY":
+    case "UPDATE_PERSON_MOBILITY": {
       const newPeople = [...state.people];
       const personIndex = newPeople.findIndex((person) => person.id === payload.id);
       newPeople[personIndex].mobility = payload.mobility;
 
       return { ...state, people: newPeople };
-    case "RESTART":
+    }
+    case "RESTART": {
       return init(initialState);
-    default:
+    }
+    default: {
       return state;
+    }
   }
 }
 

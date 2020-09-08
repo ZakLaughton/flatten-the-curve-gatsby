@@ -1,9 +1,8 @@
 import { checkInfected, shuffleArray } from "../utils/utils";
-import { Location, Mobility, State } from "../typings/gameTypes";
+import { Location, State, Person, ChangeableTypes } from "../typings/gameTypes";
 import { PeopleList } from "./PeopleList";
-import { ReducerAction } from "react";
 
-export const initialState = {
+export const initialState: State = {
   day: 0,
   people: [],
   historicalInfectedCount: [{ day: 0, count: 0 }],
@@ -11,16 +10,19 @@ export const initialState = {
   boardSize: 500,
   peopleDensity: 0.4,
   topOfTheCurve: 0,
+  maskedPercent: 10,
+  sociallyDistancedPercent: 10,
 };
 
-interface UpdatePersonMobilityPayload {
-  id?: number;
-  mobility?: Mobility;
+interface UpdatePersonBehaviorPayload {
+  propertyName: ChangeableTypes;
+  propertyValue: string | number | boolean;
+  percentToTurnOn: number;
 }
 
 type Action =
   | { type: "INCREMENT_DAY" }
-  | { type: "UPDATE_PERSON_MOBILITY"; payload: UpdatePersonMobilityPayload }
+  | { type: "UPDATE_PERSON_BEHAVIOR"; payload: UpdatePersonBehaviorPayload }
   | { type: "RESTART" };
 
 export default function reducer(state: State, action: Action) {
@@ -46,13 +48,23 @@ export default function reducer(state: State, action: Action) {
           infectedPercentage > state.topOfTheCurve ? infectedPercentage : state.topOfTheCurve,
       };
 
-    case "UPDATE_PERSON_MOBILITY":
-      const { payload } = action;
-      const newPeople = [...state.people];
-      const personIndex = newPeople.findIndex((person) => person.id === payload.id);
-      newPeople[personIndex].mobility = payload.mobility;
+    case "UPDATE_PERSON_BEHAVIOR": {
+      const {
+        payload: { propertyName, propertyValue, percentToTurnOn },
+      } = action;
+      const newPeopleList = new PeopleList([...state.people], state.gridSize);
+      newPeopleList.clearPropertyFromAllPeople(propertyName).setPropertyForPercentageOfPeople({
+        propertyName,
+        propertyValue,
+        percentage: percentToTurnOn,
+      }).peopleList;
 
-      return { ...state, people: newPeople };
+      return {
+        ...state,
+        people: newPeopleList.peopleList,
+        sociallyDistancedPercent: percentToTurnOn,
+      };
+    }
     case "RESTART":
       return init(initialState);
     default:
@@ -73,6 +85,7 @@ export function init(initialState: State) {
           id: index,
           location,
           infectedDay: -1,
+          isMasked: false,
           isCured: false,
           mobility: "FREE",
         };
@@ -90,7 +103,7 @@ export function init(initialState: State) {
     return positionList;
   }
 
-  function coordinatesAreInTheMiddleArea(person) {
+  function coordinatesAreInTheMiddleArea(person: Person) {
     return (
       person.location.x <= gridSize * 0.75 &&
       person.location.y <= gridSize * 0.75 &&
@@ -103,5 +116,16 @@ export function init(initialState: State) {
   const peopleInTheMiddle = initialPeople.filter(coordinatesAreInTheMiddleArea);
   const indexToInfect = peopleInTheMiddle[Math.floor(Math.random() * peopleInTheMiddle.length)].id;
   initialPeople[indexToInfect].infectedDay = 0;
-  return { ...initialState, people: initialPeople };
+  const finalList = new PeopleList([...initialPeople], gridSize)
+    .setPropertyForPercentageOfPeople({
+      propertyName: "mobility",
+      propertyValue: "SOCIALLY_DISTANCED",
+      percentage: initialState.sociallyDistancedPercent,
+    })
+    .setPropertyForPercentageOfPeople({
+      propertyName: "isMasked",
+      propertyValue: true,
+      percentage: initialState.maskedPercent,
+    }).peopleList;
+  return { ...initialState, people: finalList };
 }

@@ -10,7 +10,7 @@
 }
 
 .socially-distanced-square {
-  border: 3px dashed #595959;
+  outline: 3px solid #595959;
   z-index: 10;
 }
 
