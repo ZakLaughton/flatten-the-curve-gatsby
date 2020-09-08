@@ -10,8 +10,8 @@ export const initialState: State = {
   boardSize: 500,
   peopleDensity: 0.4,
   topOfTheCurve: 0,
-  maskedPercent: 90,
-  sociallyDistancedPercent: 0,
+  maskedPercent: 10,
+  sociallyDistancedPercent: 10,
 };
 
 interface UpdatePersonBehaviorPayload {

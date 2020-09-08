@@ -53,7 +53,7 @@ function Game() {
   const classes = useStyles();
   const [state, dispatch] = useReducer(reducer, initialState);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  console.log("STATE>>>", state);
   const {
     day,
     people,
@@ -183,6 +183,7 @@ function Game() {
         <SimulatorSettingsForm
           dispatch={dispatch}
           sociallyDistancedPercent={sociallyDistancedPercent}
+          maskedPercent={maskedPercent}
         />
         <Modal
           aria-labelledby='transition-modal-title'
