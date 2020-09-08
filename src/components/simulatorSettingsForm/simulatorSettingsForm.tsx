@@ -8,20 +8,24 @@ const SimulatorSettingsForm = ({ dispatch, sociallyDistancedPercent, maskedPerce
     <Card className={simulatorSettingsFormStyles.card}>
       <CardContent>
         <Grid container spacing={2} alignItems='center'>
-          <h3>% Socially Distanced</h3>
-          <SimulatorFormField
-            dispatch={dispatch}
-            fieldName='mobility'
-            value='SOCIALLY_DISTANCED'
-            percentage={sociallyDistancedPercent}
-          />
-          <h3>% masked</h3>
-          <SimulatorFormField
-            dispatch={dispatch}
-            fieldName='isMasked'
-            value={true}
-            percentage={maskedPercent}
-          />
+          <Grid item xs={6}>
+            <h3>% Socially Distanced</h3>
+            <SimulatorFormField
+              dispatch={dispatch}
+              fieldName='mobility'
+              value='SOCIALLY_DISTANCED'
+              percentage={sociallyDistancedPercent}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <h3>% masked</h3>
+            <SimulatorFormField
+              dispatch={dispatch}
+              fieldName='isMasked'
+              value={true}
+              percentage={maskedPercent}
+            />
+          </Grid>
         </Grid>
       </CardContent>
     </Card>

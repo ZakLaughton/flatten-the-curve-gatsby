@@ -52,32 +52,34 @@ export const SimulatorFormField = ({ dispatch, value, fieldName, percentage }) =
 
   return (
     <>
-      <Grid item xs={4}>
-        <Slider
-          value={displayPercentage}
-          onChange={handleSliderChange}
-          onChangeCommitted={handleSliderCommit}
-          aria-labelledby='input-slider'
-          min={0}
-          max={100}
-          marks
-          step={5}
-        />
-      </Grid>
-      <Grid item xs={2}>
-        <Input
-          value={displayPercentage}
-          margin='none'
-          onChange={handleInputChange}
-          onBlur={handleBlur}
-          inputProps={{
-            step: 10,
-            min: 0,
-            max: 100,
-            type: "number",
-            "aria-labelledby": "input-slider",
-          }}
-        />
+      <Grid container xs={12} spacing={2}>
+        <Grid item xs={8}>
+          <Slider
+            value={displayPercentage}
+            onChange={handleSliderChange}
+            onChangeCommitted={handleSliderCommit}
+            aria-labelledby='input-slider'
+            min={0}
+            max={100}
+            marks
+            step={5}
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <Input
+            value={displayPercentage}
+            margin='none'
+            onChange={handleInputChange}
+            onBlur={handleBlur}
+            inputProps={{
+              step: 10,
+              min: 0,
+              max: 100,
+              type: "number",
+              "aria-labelledby": "input-slider",
+            }}
+          />
+        </Grid>
       </Grid>
     </>
   );
