@@ -9,7 +9,7 @@ const SimulatorSettingsForm = ({ dispatch, sociallyDistancedPercent, maskedPerce
       <CardContent>
         <Grid container spacing={2} alignItems='center'>
           <Grid item xs={6}>
-            <h3>% Socially Distanced</h3>
+            <h3>% Socially Distanced </h3>
             <SimulatorFormField
               dispatch={dispatch}
               fieldName='mobility'

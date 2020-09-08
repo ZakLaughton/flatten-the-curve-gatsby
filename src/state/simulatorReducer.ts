@@ -6,7 +6,7 @@ export const initialState: State = {
   day: 0,
   people: [],
   historicalInfectedCount: [{ day: 0, count: 0 }],
-  gridSize: 30,
+  gridSize: 19,
   boardSize: 500,
   peopleDensity: 0.4,
   topOfTheCurve: 0,

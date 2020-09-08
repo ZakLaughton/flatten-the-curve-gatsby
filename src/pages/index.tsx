@@ -122,7 +122,7 @@ function Game() {
           FLATTEN THE CURVE
         </h1>
         <h2 style={{ fontSize: `1rem`, textAlign: `center` }}>
-          Keep the curve as low as possible!
+          See how mask usage and social distancing help keep the curve as low as possible!
         </h2>
         <div className={indexStyles.mainStats}>
           <div>Top of the curve: {Math.floor(topOfTheCurve)}%</div>
