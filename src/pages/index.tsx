@@ -11,6 +11,7 @@ import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import { Help, Pause, PlayArrow, Replay } from "@material-ui/icons";
 import reducer, { initialState } from "../state/reducer";
+import { TIME_BETWEEN_MOVES_IN_MS } from "../state/constants";
 
 const theme = createMuiTheme({
   palette: {
@@ -75,7 +76,7 @@ function Game() {
         return;
       }
       dispatch({ type: "INCREMENT_DAY" });
-    }, 300);
+    }, TIME_BETWEEN_MOVES_IN_MS);
     return () => {
       clearInterval(playingInterval);
     };
