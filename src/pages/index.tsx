@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useReducer } from "react";
-import indexStyles from "./index.module.css";
+import indexStyles from "./index.module.scss";
 import Board from "../components/board";
 import SimulatorSettingsForm from "../components/simulatorSettingsForm/simulatorSettingsForm";
 import Graph from "../components/graph";
@@ -88,10 +88,6 @@ function Game() {
   const handlePause = () => {
     setIsPlaying(false);
   };
-
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-  };
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
@@ -176,12 +172,15 @@ function Game() {
             <span style={{ color: `#57c1ff` }}>{curedPeopleCount}</span> recovered
           </div>
         </div>
-        <Board {...gameMetrics} people={people} day={day} gridSize={gridSize}>
+        <div className={indexStyles.boardWrapper}>
+          <div className={indexStyles.boardBackground} />
           <Graph
             historicalInfectedCount={historicalInfectedCount}
             totalPeopleCount={totalPeopleCount}
           />
-        </Board>
+          <Board {...gameMetrics} people={people} day={day} gridSize={gridSize} />
+        </div>
+
         <SimulatorSettingsForm
           dispatch={dispatch}
           demographicPercentages={demographicPercentages}

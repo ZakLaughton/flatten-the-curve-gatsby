@@ -1,9 +1,33 @@
-.game-grid {
-  color: rgba(255, 255, 255, 0.8);
+.board-wrapper {
   max-width: 100vw;
   width: 500px;
+  height: 500px;
   margin: auto;
+  display: grid;
+  border-radius: 15px;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+
+  > * {
+    grid-row: 1;
+    grid-column: 1;
+    margin: 0;
+  }
+}
+
+.board-background {
+  background-color: #b7b7b7;
+}
+
+.game-grid {
+  color: rgba(255, 255, 255, 0.8);
   padding: 3px;
+}
+
+main {
+  width: 500px;
+  margin: auto;
 }
 
 .main-stats {

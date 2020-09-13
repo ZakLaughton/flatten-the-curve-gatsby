@@ -65,7 +65,8 @@ export const SociallyDistancedPerson = () => (
 );
 
 export const MaskedPerson = () => (
-  <div className={`${personStyles.person} ${personStyles.icon}`}>
+  <div className={`${personStyles.icon}`}>
+    <div className={`${personStyles.person}`}></div>
     <FaceMask />
   </div>
 );

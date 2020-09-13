@@ -9,6 +9,7 @@
   bottom: 0;
   position: absolute;
   box-sizing: border-box;
+  transition: all 200ms linear;
 }
 
 .person-container {
@@ -31,14 +32,13 @@
   border-radius: 50%;
   content: "";
   box-shadow: #0000009c 4px 3px 6px 0px;
-  z-index: 4;
+  z-index: 1;
 }
 
 .person {
   background-color: white;
   border-radius: 50%;
   border: 1px solid black;
-  z-index: 5;
 }
 
 .cured {
@@ -57,10 +57,4 @@
   height: 16px;
   width: 16px;
   position: relative;
-
-  > img {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-  }
 }
