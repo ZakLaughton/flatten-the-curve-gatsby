@@ -7,7 +7,7 @@ function Board({ gridSize, people, day, children }) {
   return (
     <div className={gameBoardStyles.gameBoard}>
       {people.map((person: IPerson, index) => (
-        <Person personData={person} key={index} gridSize={gridSize} day={day} />
+        <Person personData={person} key={person.id} gridSize={gridSize} day={day} />
       ))}
       {children}
     </div>

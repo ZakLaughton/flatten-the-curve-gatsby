@@ -25,3 +25,26 @@
   box-shadow: #0000009c 4px 3px 6px 0px;
   z-index: 4;
 }
+
+.person {
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+
+  border: 1px solid black;
+  box-sizing: border-box;
+  z-index: 5;
+  transition: all 200ms linear;
+}
+
+.cured {
+  background-color: #57c1ff;
+}
+
+.infected {
+  background-color: #affaaf;
+}
+
+.symptomatic {
+  background-color: #448844;
+}
