@@ -8,18 +8,10 @@ function Person({
   gridSize,
   day,
 }: {
-  personData: IPerson;
+  personData?: IPerson;
   gridSize: number;
   day: number;
 }) {
-  const data = useStaticQuery(graphql`
-    {
-      file(name: { eq: "mask" }) {
-        publicURL
-      }
-    }
-  `);
-
   const { infectedDay, isCured, location } = personData;
   const isInfected = !isCured && infectedDay >= 0;
   const isSymptomatic = !isCured && infectedDay >= 0 && day - infectedDay >= 5;
@@ -39,12 +31,25 @@ function Person({
 
   return (
     <div className={className} style={style}>
-      {personData.isSociallyDistanced && <div className={personStyles.sociallyDistancedSquare} />}
-      {personData.isQuarantined && <div className={personStyles.quarantinedSquare} />}
-      {personData.isMasked && <img src={data.file.publicURL} alt='mask' />}
+      {personData?.isSociallyDistanced && <SociallyDistancedSquare />}
+      {personData?.isQuarantined && <QuarantinedSquare />}
+      {personData?.isMasked && <Facemask />}
       <div className={personStyles.personShadow} />
     </div>
   );
 }
+
+const SociallyDistancedSquare = () => <div className={personStyles.sociallyDistancedSquare} />;
+const QuarantinedSquare = () => <div className={personStyles.sociallyDistancedSquare} />;
+const Facemask = () => {
+  const data = useStaticQuery(graphql`
+    {
+      file(name: { eq: "mask" }) {
+        publicURL
+      }
+    }
+  `);
+  return <img src={data.file.publicURL} alt='mask' />;
+};
 
 export default Person;
