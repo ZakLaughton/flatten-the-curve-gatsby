@@ -137,6 +137,7 @@ function Game() {
               size='small'
               edge={false}
               onClick={handlePause}
+              disabled={infectedPeopleCount === 0}
             >
               <Pause />
             </IconButton>
