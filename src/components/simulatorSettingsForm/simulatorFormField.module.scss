@@ -1,0 +1,29 @@
+.field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  > .slider {
+    flex: 1;
+    position: relative;
+
+    height: 100%;
+    > * {
+      position: absolute;
+      margin: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+  > * {
+    margin: 0px 5px;
+  }
+
+  > *:first-child {
+    margin-left: 0;
+  }
+
+  > *:last-child {
+    margin-right: 0;
+  }
+}

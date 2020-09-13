@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Grid, Slider } from "@material-ui/core";
+import { Slider } from "@material-ui/core";
+import SimulatorFormFieldStyles from "./simulatorFormField.module.scss";
 
 export const SimulatorFormField = ({ dispatch, value, fieldName, percentage, Icon }) => {
   const [displayPercentage, setPercentage] = useState(percentage);
@@ -50,31 +51,23 @@ export const SimulatorFormField = ({ dispatch, value, fieldName, percentage, Ico
   };
 
   return (
-    <>
-      <Grid container xs={12} spacing={1}>
-        <Grid
-          item
-          xs={2}
-          style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
-        >
-          <Icon />
-        </Grid>
-        <Grid item xs={6}>
-          <Slider
-            value={displayPercentage}
-            onChange={handleSliderChange}
-            onChangeCommitted={handleSliderCommit}
-            aria-labelledby='input-slider'
-            min={0}
-            max={100}
-            marks
-            step={5}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          {displayPercentage}%
-        </Grid>
-      </Grid>
-    </>
+    <div className={SimulatorFormFieldStyles.field}>
+      <div className={SimulatorFormFieldStyles.icon}>
+        <Icon />
+      </div>
+      <div className={SimulatorFormFieldStyles.slider}>
+        <Slider
+          value={displayPercentage}
+          onChange={handleSliderChange}
+          onChangeCommitted={handleSliderCommit}
+          aria-labelledby='input-slider'
+          min={0}
+          max={100}
+          marks
+          step={5}
+        />
+      </div>
+      <div className={SimulatorFormFieldStyles.percentage}>{displayPercentage}%</div>
+    </div>
   );
 };
