@@ -99,6 +99,9 @@ function Game() {
 
   useEffect(() => {
     initializeReactGA();
+  });
+
+  useEffect(() => {
     dispatch({ type: "RESTART" });
   }, [dispatch]);
 
