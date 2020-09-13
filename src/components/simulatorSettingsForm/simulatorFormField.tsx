@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Grid, Input, Slider, Card, CardContent } from "@material-ui/core";
+import React, { useState } from "react";
+import { Grid, Slider } from "@material-ui/core";
 
 export const SimulatorFormField = ({ dispatch, value, fieldName, percentage, Icon }) => {
   const [displayPercentage, setPercentage] = useState(percentage);
@@ -71,20 +71,8 @@ export const SimulatorFormField = ({ dispatch, value, fieldName, percentage, Ico
             step={5}
           />
         </Grid>
-        <Grid item xs={4}>
-          <Input
-            value={displayPercentage}
-            margin='none'
-            onChange={handleInputChange}
-            onBlur={handleBlur}
-            inputProps={{
-              step: 10,
-              min: 0,
-              max: 100,
-              type: "number",
-              "aria-labelledby": "input-slider",
-            }}
-          />
+        <Grid item xs={3}>
+          {displayPercentage}%
         </Grid>
       </Grid>
     </>
