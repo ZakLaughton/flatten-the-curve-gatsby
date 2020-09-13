@@ -49,7 +49,7 @@ export default function reducer(state: State, action: Action) {
           { day: newDayNumber, count: newInfectedPeopleCount },
         ];
 
-        peopleList.recover(state.day);
+        peopleList.quarantine(newDayNumber).recover(newDayNumber);
       }
 
       const infectedPercentage = (newInfectedPeopleCount / state.people.length) * 100;
@@ -135,7 +135,9 @@ export function init({ initialState, currentState }: { initialState: State; curr
 
   const initialPeople = generateInitialPeople();
   const peopleInTheMiddle = initialPeople.filter(coordinatesAreInTheMiddleArea);
-  const indexToInfect = peopleInTheMiddle[Math.floor(Math.random() * peopleInTheMiddle.length)].id;
+  const indexToInfect = peopleInTheMiddle
+    ? peopleInTheMiddle[Math.floor(Math.random() * peopleInTheMiddle.length)].id
+    : initialPeople[Math.floor(Math.random() * initialPeople.length)].id;
   initialPeople[indexToInfect].infectedDay = 0;
   const finalList = new PeopleList([...initialPeople], gridSize)
     .setPropertyForPercentageOfPeople({

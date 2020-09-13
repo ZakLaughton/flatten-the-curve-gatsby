@@ -30,17 +30,18 @@ function Person({
   };
 
   return (
-    <div className={className} style={style}>
+    <div style={style} className={personStyles.personContainer}>
+      <div className={className}></div>
+      <div className={personStyles.personShadow} />
+      {personData?.isMasked && <FaceMask />}
       {personData?.isSociallyDistanced && <SociallyDistancedSquare />}
       {personData?.isQuarantined && <QuarantinedSquare />}
-      {personData?.isMasked && <FaceMask />}
-      <div className={personStyles.personShadow} />
     </div>
   );
 }
 
 const SociallyDistancedSquare = () => <div className={personStyles.sociallyDistancedSquare} />;
-const QuarantinedSquare = () => <div className={personStyles.sociallyDistancedSquare} />;
+const QuarantinedSquare = () => <div className={personStyles.quarantinedSquare} />;
 const FaceMask = () => {
   const data = useStaticQuery(graphql`
     {
@@ -57,7 +58,8 @@ const FaceMask = () => {
  */
 
 export const SociallyDistancedPerson = () => (
-  <div className={`${personStyles.person} ${personStyles.icon}`}>
+  <div className={`${personStyles.icon}`}>
+    <div className={`${personStyles.person}`}></div>
     <SociallyDistancedSquare />
   </div>
 );

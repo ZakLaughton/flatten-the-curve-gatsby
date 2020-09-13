@@ -53,7 +53,10 @@ export class PeopleList {
       .map((person) => person.id);
 
     this._peopleList = this._peopleList.map((person) => {
-      if (peopleToRecover.includes(person.id)) person.isCured = true;
+      if (peopleToRecover.includes(person.id)) {
+        person.isCured = true;
+        person.isQuarantined = false;
+      }
       return person;
     });
 
@@ -129,15 +132,17 @@ export class PeopleList {
     return this;
   }
 
-  quarantine() {
+  quarantine(day: number) {
     // Experimental: auto-quarantine symptomatic people
-    // movedInfectedPeople = movedInfectedPeople.map(person => {
-    //   const { isCured, infectedDay } = person
-    //   if (!isCured && infectedDay >= 0 && newDayNumber - infectedDay >= 5) {
-    //     person.mobility = "QUARANTINED"
-    //   }
-    //   return person
-    // })
+    this._peopleList = this._peopleList.map((person) => {
+      const { isCured, infectedDay } = person;
+      if (!isCured && infectedDay >= 0 && day - infectedDay >= 5) {
+        person.isQuarantined = true;
+      }
+      return person;
+    });
+
+    return this;
   }
 
   get peopleList() {
