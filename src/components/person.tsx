@@ -1,5 +1,5 @@
 import React from "react";
-import personStyles from "./person.module.css";
+import personStyles from "./person.module.scss";
 import { useStaticQuery, graphql } from "gatsby";
 import { Person as IPerson } from "../typings/gameTypes";
 
@@ -33,7 +33,7 @@ function Person({
     <div className={className} style={style}>
       {personData?.isSociallyDistanced && <SociallyDistancedSquare />}
       {personData?.isQuarantined && <QuarantinedSquare />}
-      {personData?.isMasked && <Facemask />}
+      {personData?.isMasked && <FaceMask />}
       <div className={personStyles.personShadow} />
     </div>
   );
@@ -41,7 +41,7 @@ function Person({
 
 const SociallyDistancedSquare = () => <div className={personStyles.sociallyDistancedSquare} />;
 const QuarantinedSquare = () => <div className={personStyles.sociallyDistancedSquare} />;
-const Facemask = () => {
+const FaceMask = () => {
   const data = useStaticQuery(graphql`
     {
       file(name: { eq: "mask" }) {
@@ -49,7 +49,7 @@ const Facemask = () => {
       }
     }
   `);
-  return <img src={data.file.publicURL} alt='mask' />;
+  return <img className={personStyles.faceMask} src={data.file.publicURL} alt='mask' />;
 };
 
 /**
@@ -64,7 +64,7 @@ export const SociallyDistancedPerson = () => (
 
 export const MaskedPerson = () => (
   <div className={`${personStyles.person} ${personStyles.icon}`}>
-    <Facemask />
+    <FaceMask />
   </div>
 );
 

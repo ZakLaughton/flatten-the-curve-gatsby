@@ -1,6 +1,7 @@
 .socially-distanced-square,
 .quarantined-square,
-.person-shadow {
+.person-shadow,
+.face-mask {
   height: 100%;
   width: 100%;
   left: 0;
@@ -55,5 +56,11 @@
 .icon {
   height: 16px;
   width: 16px;
-  position: static;
+  position: relative;
+
+  > img {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+  }
 }
