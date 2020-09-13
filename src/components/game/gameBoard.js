@@ -1,6 +1,6 @@
 import React from "react";
 import Person from "./person";
-import gameBoardStyles from "./gameBoard.module.css";
+import gameBoardStyles from "../board.module.css";
 
 function GameBoard({ boardSize, gridSize, people, day, dispatch, children }) {
   return (

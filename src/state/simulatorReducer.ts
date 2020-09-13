@@ -4,11 +4,12 @@ import { PeopleList } from "./PeopleList";
 
 export const initialState: State = {
   day: 0,
+  movesToday: 0,
   people: [],
   historicalInfectedCount: [{ day: 0, count: 0 }],
-  gridSize: 19,
+  gridSize: 40,
   boardSize: 500,
-  peopleDensity: 0.4,
+  peopleDensity: 0.2,
   topOfTheCurve: 0,
   maskedPercent: 10,
   sociallyDistancedPercent: 10,
@@ -21,32 +22,51 @@ interface UpdatePersonBehaviorPayload {
 }
 
 type Action =
+  | { type: "MOVE_PEOPLE" }
   | { type: "INCREMENT_DAY" }
   | { type: "UPDATE_PERSON_BEHAVIOR"; payload: UpdatePersonBehaviorPayload }
   | { type: "RESTART" };
 
 export default function reducer(state: State, action: Action) {
   switch (action.type) {
-    case "INCREMENT_DAY":
-      const newDayNumber = state.day + 1;
-
+    case "INCREMENT_DAY": {
       const peopleList = new PeopleList([...state.people], state.gridSize);
+      let newDayNumber = state.day;
+      let newMovesToday = state.movesToday;
+      let newHistoricalInfectedCount = state.historicalInfectedCount;
 
-      peopleList.move().recover(state.day).infect(state.day);
+      for (let i = 0; i < 1; i++) {
+        peopleList.move().infect(state.day);
+      }
+
       const newInfectedPeopleCount = peopleList.peopleList.filter(checkInfected).length;
+
+      if (state.movesToday === 4) {
+        newDayNumber = state.day + 1;
+        newMovesToday = 0;
+
+        newHistoricalInfectedCount = [
+          ...state.historicalInfectedCount,
+          { day: newDayNumber, count: newInfectedPeopleCount },
+        ];
+
+        peopleList.recover(state.day);
+      } else {
+        newMovesToday += 1;
+      }
+
       const infectedPercentage = (newInfectedPeopleCount / state.people.length) * 100;
 
       return {
         ...state,
         day: newDayNumber,
+        movesToday: newMovesToday,
         people: peopleList.peopleList,
-        historicalInfectedCount: [
-          ...state.historicalInfectedCount,
-          { day: newDayNumber, count: newInfectedPeopleCount },
-        ],
+        historicalInfectedCount: newHistoricalInfectedCount,
         topOfTheCurve:
           infectedPercentage > state.topOfTheCurve ? infectedPercentage : state.topOfTheCurve,
       };
+    }
 
     case "UPDATE_PERSON_BEHAVIOR": {
       const {

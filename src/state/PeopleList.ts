@@ -15,7 +15,7 @@ export class PeopleList {
       (newPeople, person, index) => {
         if (person.mobility === "QUARANTINED") return newPeople;
         if (person.mobility === "SOCIALLY_DISTANCED") {
-          if (Math.random() < 0.5) {
+          if (Math.random() < 0.9) {
             return newPeople;
           }
         }
@@ -48,7 +48,7 @@ export class PeopleList {
   recover(day: number) {
     const peopleToRecover = this._peopleList
       .filter(
-        (person) => person.infectedDay !== -1 && !person.isCured && day - person.infectedDay > 19
+        (person) => person.infectedDay !== -1 && !person.isCured && day - person.infectedDay > 14
       )
       .map((person) => person.id);
 
@@ -69,7 +69,7 @@ export class PeopleList {
         const neighborLocations = getSurroundingCells(person.location, this._gridSize)
           .filter((location) => ["N", "E", "S", "W"].includes(location.direction))
           .map((surroundingCell) => surroundingCell.coordinates)
-          .filter((coordinate) => (person.isMasked ? Math.random() < 0.05 : true));
+          .filter(() => (person.isMasked ? Math.random() < 0.15 : true));
 
         return neighborLocations;
       })

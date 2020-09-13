@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import personStyles from "./person.module.css";
+import personStyles from "../person.module.css";
 import styled from "styled-components";
 
 function Person({ personData, gridSize, day, dispatch }) {

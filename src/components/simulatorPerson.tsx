@@ -35,7 +35,6 @@ function Person({
       isCured={isCured}
       isSymptomatic={isSymptomatic}
       location={location}
-      positionTransition={{ duration: 0.4 }}
     >
       {personData.mobility === "SOCIALLY_DISTANCED" && (
         <div className={personStyles.sociallyDistancedSquare} />
@@ -68,6 +67,7 @@ const StyledPerson = styled(motion.div).attrs((props) => ({
   border: 1px solid black;
   box-sizing: border-box;
   z-index: 5;
+  transition: all 200ms linear;
 `;
 
 export default Person;

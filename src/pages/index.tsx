@@ -77,7 +77,7 @@ function Game() {
         return;
       }
       dispatch({ type: "INCREMENT_DAY" });
-    }, 800);
+    }, 300);
     return () => {
       clearInterval(playingInterval);
     };
