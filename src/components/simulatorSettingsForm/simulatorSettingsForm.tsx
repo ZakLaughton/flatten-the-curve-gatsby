@@ -3,7 +3,11 @@ import { Grid, Input, Slider, Card, CardContent } from "@material-ui/core";
 import simulatorSettingsFormStyles from "./simulatorSettingsForm.module.scss";
 import { SimulatorFormField } from "./simulatorFormField";
 
-const SimulatorSettingsForm = ({ dispatch, sociallyDistancedPercent, maskedPercent }) => {
+const SimulatorSettingsForm = ({ dispatch, demographicPercentages }) => {
+  const {
+    isSociallyDistanced: sociallyDistancedPercent,
+    isMasked: maskedPercent,
+  } = demographicPercentages;
   return (
     <Card className={simulatorSettingsFormStyles.card}>
       <CardContent>

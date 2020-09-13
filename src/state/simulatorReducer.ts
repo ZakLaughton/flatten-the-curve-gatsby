@@ -1,6 +1,7 @@
 import { checkInfected, shuffleArray } from "../utils/utils";
 import { Location, State, Person, ChangeableTypes } from "../typings/gameTypes";
 import { PeopleList } from "./PeopleList";
+import { MOVES_PER_DAY } from "./constants";
 
 export const initialState: State = {
   day: 0,
@@ -11,8 +12,7 @@ export const initialState: State = {
   boardSize: 500,
   peopleDensity: 0.2,
   topOfTheCurve: 0,
-  maskedPercent: 10,
-  sociallyDistancedPercent: 10,
+  demographicPercentages: { isMasked: 10, isSociallyDistanced: 10 },
 };
 
 interface UpdatePersonBehaviorPayload {
@@ -35,7 +35,7 @@ export default function reducer(state: State, action: Action) {
       let newMovesToday = state.movesToday;
       let newHistoricalInfectedCount = state.historicalInfectedCount;
 
-      for (let i = 0; i < 1; i++) {
+      for (let i = 0; i < MOVES_PER_DAY; i++) {
         peopleList.move().infect(state.day);
       }
 
@@ -82,17 +82,22 @@ export default function reducer(state: State, action: Action) {
       return {
         ...state,
         people: newPeopleList.peopleList,
-        sociallyDistancedPercent: percentToTurnOn,
+        demographicPercentages: {
+          ...state.demographicPercentages,
+          [propertyName]: percentToTurnOn,
+        },
       };
     }
     case "RESTART":
-      return init(initialState);
+      return init({ initialState, currentState: state });
     default:
       return state;
   }
 }
 
-export function init(initialState: State) {
+export function init({ initialState, currentState }: { initialState: State; currentState: State }) {
+  console.log("IS>>>", initialState);
+  console.log("CS>>>", currentState);
   const { gridSize, peopleDensity } = initialState;
   const numberOfPeople = Math.floor(gridSize * gridSize * peopleDensity) || 4;
   const generateInitialPeople = () => {
@@ -140,12 +145,16 @@ export function init(initialState: State) {
     .setPropertyForPercentageOfPeople({
       propertyName: "mobility",
       propertyValue: "SOCIALLY_DISTANCED",
-      percentage: initialState.sociallyDistancedPercent,
+      percentage: currentState.demographicPercentages.isSociallyDistanced,
     })
     .setPropertyForPercentageOfPeople({
       propertyName: "isMasked",
       propertyValue: true,
-      percentage: initialState.maskedPercent,
+      percentage: currentState.demographicPercentages.isMasked,
     }).peopleList;
-  return { ...initialState, people: finalList };
+  return {
+    ...initialState,
+    people: finalList,
+    demographicPercentages: currentState.demographicPercentages,
+  };
 }

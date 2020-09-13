@@ -62,8 +62,7 @@ function Game() {
     boardSize,
     peopleDensity,
     topOfTheCurve,
-    sociallyDistancedPercent,
-    maskedPercent,
+    demographicPercentages,
   } = state;
 
   const gameMetrics = { gridSize, boardSize, peopleDensity };
@@ -185,8 +184,7 @@ function Game() {
         </SimulatorBoard>
         <SimulatorSettingsForm
           dispatch={dispatch}
-          sociallyDistancedPercent={sociallyDistancedPercent}
-          maskedPercent={maskedPercent}
+          demographicPercentages={demographicPercentages}
         />
         <Modal
           aria-labelledby='transition-modal-title'
