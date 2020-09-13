@@ -62,7 +62,7 @@ export class PeopleList {
 
   infect(day: number) {
     const contagiousPeople = this._peopleList.filter(
-      (person) => person.infectedDay >= 0 && !person.isCured && person.isQuarantined
+      (person) => person.infectedDay >= 0 && !person.isCured && !person.isQuarantined
     );
     const infectionZones = contagiousPeople
       .map((person) => {

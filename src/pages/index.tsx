@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useReducer } from "react";
 import indexStyles from "./index.module.css";
-import SimulatorBoard from "../components/simulatorBoard";
+import Board from "../components/board";
 import SimulatorSettingsForm from "../components/simulatorSettingsForm/simulatorSettingsForm";
 import Graph from "../components/graph";
 import { checkInfected } from "../utils/utils";
@@ -10,7 +10,7 @@ import { Backdrop, Fade, Modal, IconButton, Typography } from "@material-ui/core
 import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import { Help, Pause, PlayArrow, Replay } from "@material-ui/icons";
-import reducer, { initialState } from "../state/simulatorReducer";
+import reducer, { initialState } from "../state/reducer";
 
 const theme = createMuiTheme({
   palette: {
@@ -174,12 +174,12 @@ function Game() {
             <span style={{ color: `#57c1ff` }}>{curedPeopleCount}</span> recovered
           </div>
         </div>
-        <SimulatorBoard {...gameMetrics} people={people} day={day} gridSize={gridSize}>
+        <Board {...gameMetrics} people={people} day={day} gridSize={gridSize}>
           <Graph
             historicalInfectedCount={historicalInfectedCount}
             totalPeopleCount={totalPeopleCount}
           />
-        </SimulatorBoard>
+        </Board>
         <SimulatorSettingsForm
           dispatch={dispatch}
           demographicPercentages={demographicPercentages}
