@@ -1,3 +1,5 @@
-const MOVES_PER_DAY = 1;
+const MOVES_PER_DAY = 2;
+const PEOPLE_DENSITY = 0.25;
+const GRID_SIZE = 40;
 
-export { MOVES_PER_DAY };
+export { GRID_SIZE, MOVES_PER_DAY, PEOPLE_DENSITY };

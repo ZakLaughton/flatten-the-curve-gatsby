@@ -3,7 +3,6 @@ import { Grid, Input, Slider, Card, CardContent } from "@material-ui/core";
 
 export const SimulatorFormField = ({ dispatch, value, fieldName, percentage }) => {
   const [displayPercentage, setPercentage] = useState(percentage);
-  console.log("DP>>>", displayPercentage);
 
   const handleBlur = () => {
     let newValue;

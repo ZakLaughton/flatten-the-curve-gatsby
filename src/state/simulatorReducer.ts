@@ -1,16 +1,16 @@
 import { checkInfected, shuffleArray } from "../utils/utils";
 import { Location, State, Person, ChangeableTypes } from "../typings/gameTypes";
 import { PeopleList } from "./PeopleList";
-import { MOVES_PER_DAY } from "./constants";
+import { MOVES_PER_DAY, PEOPLE_DENSITY, GRID_SIZE } from "./constants";
 
 export const initialState: State = {
   day: 0,
   movesToday: 0,
   people: [],
   historicalInfectedCount: [{ day: 0, count: 0 }],
-  gridSize: 40,
+  gridSize: GRID_SIZE,
   boardSize: 500,
-  peopleDensity: 0.2,
+  peopleDensity: PEOPLE_DENSITY,
   topOfTheCurve: 0,
   demographicPercentages: { isMasked: 10, isSociallyDistanced: 10 },
 };
@@ -35,13 +35,12 @@ export default function reducer(state: State, action: Action) {
       let newMovesToday = state.movesToday;
       let newHistoricalInfectedCount = state.historicalInfectedCount;
 
-      for (let i = 0; i < MOVES_PER_DAY; i++) {
-        peopleList.move().infect(state.day);
-      }
+      peopleList.move().infect(state.day);
+      newMovesToday += 1;
 
       const newInfectedPeopleCount = peopleList.peopleList.filter(checkInfected).length;
 
-      if (state.movesToday === 4) {
+      if (newMovesToday === MOVES_PER_DAY) {
         newDayNumber = state.day + 1;
         newMovesToday = 0;
 
@@ -51,8 +50,6 @@ export default function reducer(state: State, action: Action) {
         ];
 
         peopleList.recover(state.day);
-      } else {
-        newMovesToday += 1;
       }
 
       const infectedPercentage = (newInfectedPeopleCount / state.people.length) * 100;
@@ -96,8 +93,6 @@ export default function reducer(state: State, action: Action) {
 }
 
 export function init({ initialState, currentState }: { initialState: State; currentState: State }) {
-  console.log("IS>>>", initialState);
-  console.log("CS>>>", currentState);
   const { gridSize, peopleDensity } = initialState;
   const numberOfPeople = Math.floor(gridSize * gridSize * peopleDensity) || 4;
   const generateInitialPeople = () => {

@@ -53,7 +53,6 @@ function Game() {
   const classes = useStyles();
   const [state, dispatch] = useReducer(reducer, initialState);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log("STATE>>>", state);
   const {
     day,
     people,
@@ -127,6 +126,7 @@ function Game() {
           See how mask usage and social distancing help keep the curve as low as possible!
         </h2>
         <div className={indexStyles.mainStats}>
+          <div>Day: {day}</div>
           <div>Top of the curve: {Math.floor(topOfTheCurve)}%</div>
           {isPlaying ? (
             <IconButton
