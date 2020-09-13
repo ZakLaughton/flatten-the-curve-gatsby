@@ -36,10 +36,8 @@ function Person({
       isSymptomatic={isSymptomatic}
       location={location}
     >
-      {personData.mobility === "SOCIALLY_DISTANCED" && (
-        <div className={personStyles.sociallyDistancedSquare} />
-      )}
-      {personData.mobility === "QUARANTINED" && <div className={personStyles.quarantinedSquare} />}
+      {personData.isSociallyDistanced && <div className={personStyles.sociallyDistancedSquare} />}
+      {personData.isQuarantined && <div className={personStyles.quarantinedSquare} />}
       {personData.isMasked && <img src={data.file.publicURL} alt='mask' />}
       <div className={personStyles.personShadow} />
     </StyledPerson>

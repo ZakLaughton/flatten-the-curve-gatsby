@@ -5,19 +5,19 @@ export const SimulatorFormField = ({ dispatch, value, fieldName, percentage }) =
   const [displayPercentage, setPercentage] = useState(percentage);
 
   const handleBlur = () => {
-    let newValue;
-    if (value < 0) {
-      newValue = 0;
+    let newPercentage;
+    if (percentage < 0) {
+      newPercentage = 0;
     } else if (value > 100) {
-      newValue = 100;
+      newPercentage = 100;
     }
 
     dispatch({
       type: "UPDATE_PERSON_BEHAVIOR",
       payload: {
         propertyName: fieldName,
-        propertyValue: percentage,
-        percentToTurnOn: newValue,
+        propertyValue: value,
+        percentToTurnOn: newPercentage,
       },
     });
   };
@@ -27,7 +27,7 @@ export const SimulatorFormField = ({ dispatch, value, fieldName, percentage }) =
       type: "UPDATE_PERSON_BEHAVIOR",
       payload: {
         propertyName: fieldName,
-        propertyValue: "SOCIALLY_DISTANCED",
+        propertyValue: value,
         percentToTurnOn: newValue,
       },
     });
@@ -43,7 +43,7 @@ export const SimulatorFormField = ({ dispatch, value, fieldName, percentage }) =
       type: "UPDATE_PERSON_BEHAVIOR",
       payload: {
         propertyName: fieldName,
-        propertyValue: "SOCIALLY_DISTANCED",
+        propertyValue: value,
         percentToTurnOn: newValue,
       },
     });

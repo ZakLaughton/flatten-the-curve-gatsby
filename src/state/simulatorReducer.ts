@@ -17,7 +17,7 @@ export const initialState: State = {
 
 interface UpdatePersonBehaviorPayload {
   propertyName: ChangeableTypes;
-  propertyValue: string | number | boolean;
+  propertyValue: number | boolean;
   percentToTurnOn: number;
 }
 
@@ -107,7 +107,8 @@ export function init({ initialState, currentState }: { initialState: State; curr
           infectedDay: -1,
           isMasked: false,
           isCured: false,
-          mobility: "FREE",
+          isSociallyDistanced: false,
+          isQuarantined: false,
         };
       });
     return people;
@@ -138,8 +139,8 @@ export function init({ initialState, currentState }: { initialState: State; curr
   initialPeople[indexToInfect].infectedDay = 0;
   const finalList = new PeopleList([...initialPeople], gridSize)
     .setPropertyForPercentageOfPeople({
-      propertyName: "mobility",
-      propertyValue: "SOCIALLY_DISTANCED",
+      propertyName: "isSociallyDistanced",
+      propertyValue: true,
       percentage: currentState.demographicPercentages.isSociallyDistanced,
     })
     .setPropertyForPercentageOfPeople({

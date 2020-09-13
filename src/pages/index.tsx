@@ -168,9 +168,7 @@ function Game() {
         </div>
         <div className={indexStyles.stats}>
           <div>
-            <span style={{ color: `rgba(255, 0, 0, 0.8)` }}>{infectedPeopleCount}</span> infected (
-            <span style={{ color: `#448844` }}>{symptomaticCount}</span>{" "}
-            {symptomaticCount > 1 || symptomaticCount === 0 ? "have" : "has"} symptoms)
+            <span style={{ color: `rgba(255, 0, 0, 0.8)` }}>{infectedPeopleCount}</span> infected
           </div>
           <div>
             <span style={{ color: `#57c1ff` }}>{curedPeopleCount}</span> recovered

@@ -16,8 +16,8 @@ const SimulatorSettingsForm = ({ dispatch, demographicPercentages }) => {
             <h3>% Socially Distanced </h3>
             <SimulatorFormField
               dispatch={dispatch}
-              fieldName='mobility'
-              value='SOCIALLY_DISTANCED'
+              fieldName='isSociallyDistanced'
+              value={true}
               percentage={sociallyDistancedPercent}
             />
           </Grid>

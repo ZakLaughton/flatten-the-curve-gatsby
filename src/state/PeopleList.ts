@@ -13,8 +13,8 @@ export class PeopleList {
   move() {
     this._peopleList = this._peopleList.reduce(
       (newPeople, person, index) => {
-        if (person.mobility === "QUARANTINED") return newPeople;
-        if (person.mobility === "SOCIALLY_DISTANCED") {
+        if (person.isQuarantined) return newPeople;
+        if (person.isSociallyDistanced) {
           if (Math.random() < 0.9) {
             return newPeople;
           }
@@ -62,7 +62,7 @@ export class PeopleList {
 
   infect(day: number) {
     const contagiousPeople = this._peopleList.filter(
-      (person) => person.infectedDay >= 0 && !person.isCured && person.mobility !== "QUARANTINED"
+      (person) => person.infectedDay >= 0 && !person.isCured && person.isQuarantined
     );
     const infectionZones = contagiousPeople
       .map((person) => {
@@ -82,7 +82,7 @@ export class PeopleList {
             person.location.x === infectionZone.x && person.location.y === infectionZone.y
         )
       ) {
-        const chanceOfGettingInfected = person.mobility === "SOCIALLY_DISTANCED" ? 0.5 : 0.95;
+        const chanceOfGettingInfected = person.isSociallyDistanced ? 0.5 : 0.95;
         if (Math.random() <= chanceOfGettingInfected) person.infectedDay = day;
       }
       return person;
@@ -99,7 +99,7 @@ export class PeopleList {
 
   resetMobilityOnSociallyDistancedPeople() {
     this._peopleList = this._peopleList.map((person) =>
-      person.mobility === "SOCIALLY_DISTANCED" ? { ...person, mobility: "FREE" } : person
+      person.isSociallyDistanced ? { ...person, isSociallyDistanced: true } : person
     );
     return this;
   }
@@ -110,7 +110,7 @@ export class PeopleList {
     percentage,
   }: {
     propertyName: ChangeableTypes;
-    propertyValue: string | number | boolean;
+    propertyValue: number | boolean;
     percentage: number;
   }) {
     const peopleIds = this._peopleList.map((person) => person.id);

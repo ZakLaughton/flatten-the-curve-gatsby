@@ -1,4 +1,4 @@
-const MOVES_PER_DAY = 2;
+const MOVES_PER_DAY = 1;
 const PEOPLE_DENSITY = 0.25;
 const GRID_SIZE = 40;
 
