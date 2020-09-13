@@ -52,4 +52,20 @@ const Facemask = () => {
   return <img src={data.file.publicURL} alt='mask' />;
 };
 
+/**
+ * DEMO PEOPLE FOR FORM ICONS
+ */
+
+export const SociallyDistancedPerson = () => (
+  <div className={`${personStyles.person} ${personStyles.icon}`}>
+    <SociallyDistancedSquare />
+  </div>
+);
+
+export const MaskedPerson = () => (
+  <div className={`${personStyles.person} ${personStyles.icon}`}>
+    <Facemask />
+  </div>
+);
+
 export default Person;

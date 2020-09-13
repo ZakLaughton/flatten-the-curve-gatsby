@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Grid, Input, Slider, Card, CardContent } from "@material-ui/core";
 
-export const SimulatorFormField = ({ dispatch, value, fieldName, percentage }) => {
+export const SimulatorFormField = ({ dispatch, value, fieldName, percentage, Icon }) => {
   const [displayPercentage, setPercentage] = useState(percentage);
 
   const handleBlur = () => {
@@ -51,8 +51,15 @@ export const SimulatorFormField = ({ dispatch, value, fieldName, percentage }) =
 
   return (
     <>
-      <Grid container xs={12} spacing={2}>
-        <Grid item xs={8}>
+      <Grid container xs={12} spacing={1}>
+        <Grid
+          item
+          xs={2}
+          style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+        >
+          <Icon />
+        </Grid>
+        <Grid item xs={6}>
           <Slider
             value={displayPercentage}
             onChange={handleSliderChange}

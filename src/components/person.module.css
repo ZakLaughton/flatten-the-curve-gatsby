@@ -9,6 +9,12 @@
   box-sizing: border-box;
 }
 
+.icon {
+  height: 16px;
+  width: 16px;
+  margin: auto;
+}
+
 .socially-distanced-square {
   outline: 3px solid #595959;
   z-index: 10;
