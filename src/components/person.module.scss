@@ -19,7 +19,7 @@
 
 .socially-distanced-square {
   z-index: 10;
-  border: 3px solid #595959;
+  border: 2px solid #595959;
 }
 
 .quarantined-square {
@@ -48,8 +48,7 @@
 }
 
 .cured {
-  border: 2px solid black;
-  border: 1px solid #57c1ff;
+  background-color: #57c1ff;
 }
 
 .infected {
