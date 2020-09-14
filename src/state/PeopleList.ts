@@ -135,10 +135,13 @@ export class PeopleList {
   quarantine(day: number) {
     // Experimental: auto-quarantine symptomatic people
     this._peopleList = this._peopleList.map((person) => {
-      const { isCured, infectedDay } = person;
-      if (!isCured && infectedDay >= 0 && day - infectedDay >= 5) {
+      const { isCured, infectedDay, doesSelfQuarantine } = person;
+      if (doesSelfQuarantine && !isCured && infectedDay >= 0 && day - infectedDay >= 5) {
         person.isQuarantined = true;
+        return person;
       }
+
+      person.isQuarantined = false;
       return person;
     });
 

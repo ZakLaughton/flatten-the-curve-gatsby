@@ -74,4 +74,10 @@ export const MaskedPerson = () => (
   </div>
 );
 
+export const QuarantinedPerson = () => (
+  <div className={`${personStyles.icon}`}>
+    <QuarantinedSquare />
+  </div>
+);
+
 export default Person;

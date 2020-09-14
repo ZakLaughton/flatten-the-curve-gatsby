@@ -12,7 +12,7 @@ export const initialState: State = {
   boardSize: 500,
   peopleDensity: PEOPLE_DENSITY,
   topOfTheCurve: 0,
-  demographicPercentages: { isMasked: 10, isSociallyDistanced: 10 },
+  demographicPercentages: { isMasked: 10, isSociallyDistanced: 10, doesSelfQuarantine: 0 },
 };
 
 interface UpdatePersonBehaviorPayload {
@@ -35,7 +35,7 @@ export default function reducer(state: State, action: Action) {
       let newMovesToday = state.movesToday;
       let newHistoricalInfectedCount = state.historicalInfectedCount;
 
-      peopleList.move().infect(state.day);
+      peopleList.move().infect(state.day).quarantine(newDayNumber);
       newMovesToday += 1;
 
       const newInfectedPeopleCount = peopleList.peopleList.filter(checkInfected).length;
@@ -69,6 +69,7 @@ export default function reducer(state: State, action: Action) {
       const {
         payload: { propertyName, propertyValue, percentToTurnOn },
       } = action;
+
       const newPeopleList = new PeopleList([...state.people], state.gridSize);
       newPeopleList.clearPropertyFromAllPeople(propertyName).setPropertyForPercentageOfPeople({
         propertyName,
@@ -109,6 +110,7 @@ export function init({ initialState, currentState }: { initialState: State; curr
           isCured: false,
           isSociallyDistanced: false,
           isQuarantined: false,
+          doesSelfQuarantine: false,
         };
       });
     return people;
@@ -149,7 +151,13 @@ export function init({ initialState, currentState }: { initialState: State; curr
       propertyName: "isMasked",
       propertyValue: true,
       percentage: currentState.demographicPercentages.isMasked,
+    })
+    .setPropertyForPercentageOfPeople({
+      propertyName: "doesSelfQuarantine",
+      propertyValue: true,
+      percentage: currentState.demographicPercentages.doesSelfQuarantine,
     }).peopleList;
+
   return {
     ...initialState,
     people: finalList,
