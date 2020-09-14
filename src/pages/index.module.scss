@@ -1,7 +1,4 @@
 .board-wrapper {
-  max-width: 100vw;
-  width: 500px;
-  height: 500px;
   margin: auto;
   display: grid;
   border-radius: 15px;
@@ -28,6 +25,8 @@
 main {
   width: 500px;
   margin: auto;
+  max-width: 100%;
+  padding: 3px;
 }
 
 .main-stats {
@@ -36,7 +35,6 @@ main {
   justify-content: space-evenly;
   font-size: 1.4rem;
   font-weight: 500;
-  margin: 8px;
   align-items: center;
   color: white;
 }
@@ -51,4 +49,11 @@ main {
   border-radius: 5px;
   padding: 5px;
   margin: 8px 0px;
+  box-sizing: border-box;
+}
+
+@media only screen and (max-width: 500px) {
+  .main-stats {
+    font-size: 1rem;
+  }
 }
