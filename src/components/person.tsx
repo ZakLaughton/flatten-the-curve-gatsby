@@ -32,7 +32,6 @@ function Person({
   return (
     <div style={style} className={personStyles.personContainer}>
       <div className={className}></div>
-      <div className={personStyles.personShadow} />
       {personData?.isMasked && <FaceMask />}
       {personData?.isSociallyDistanced && <SociallyDistancedSquare />}
       {personData?.isQuarantined && <QuarantinedSquare />}
