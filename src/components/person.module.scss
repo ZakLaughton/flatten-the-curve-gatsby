@@ -26,6 +26,12 @@
   border: 1px solid black;
   background-color: #595959;
   z-index: 10;
+  overflow: hidden;
+  font-size: 0.5rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .person-shadow {

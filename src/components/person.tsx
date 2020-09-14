@@ -41,7 +41,11 @@ function Person({
 }
 
 const SociallyDistancedSquare = () => <div className={personStyles.sociallyDistancedSquare} />;
-const QuarantinedSquare = () => <div className={personStyles.quarantinedSquare} />;
+const QuarantinedSquare = () => (
+  <div className={personStyles.quarantinedSquare}>
+    <div>Q</div>
+  </div>
+);
 const FaceMask = () => {
   const data = useStaticQuery(graphql`
     {
