@@ -8,7 +8,7 @@ export const Graph = ({ historicalInfectedCount, totalPeopleCount }) => {
       data={historicalInfectedCount}
       x='day'
       y='count'
-      animate={{ duration: 300 }}
+      animate={{ duration: 200 }}
       style={{ data: { fill: `rgba(255, 0, 0, 0.6)` } }}
       domain={{ y: [0, totalPeopleCount] }}
       padding={0}
